@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>To-Do · 08 juin 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #F7F6F3;
+    color: #1A1916;
+    padding: 16px 12px 80px;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header { margin-bottom: 14px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.2; }
+  .header .date { font-size: 10px; color: #9B9690; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+  /* STYLE SWITCHER */
+  .switcher {
+    display: flex; align-items: center; gap: 5px;
+    background: #fff; border: 1px solid #E4E2DC; border-radius: 8px; padding: 5px 8px;
+    flex-shrink: 0;
+  }
+  .switcher span { font-size: 9px; color: #9B9690; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sw-btn {
+    border-radius: 6px; padding: 3px 7px; border: 1px solid transparent;
+    font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.15s; background: transparent;
+  }
+  .sw-btn.active-star  { background: #FDF8EC; border-color: #D4900A; color: #D4900A; }
+  .sw-btn.active-toggle { background: #EEF4FF; border-color: #2C5F8A; color: #2C5F8A; }
+  .sw-btn:not([class*="active"]) { color: #9B9690; }
+
+  /* PROGRESS */
+  .progress-card {
+    background: #fff; border: 1px solid #E4E2DC; border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 14px;
+  }
+  .progress-top { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .progress-label { font-size: 11px; color: #9B9690; font-family: monospace; flex: 1; }
+  .progress-pct { font-size: 11px; font-weight: 700; color: #2C5F8A; font-family: monospace; }
+  .save-status { font-size: 9px; }
+  .save-ok   { color: #5A7A2C; }
+  .save-wait { color: #9B9690; }
+  .save-err  { color: #8A2C2C; }
+  .progress-track { height: 5px; background: #E4E2DC; border-radius: 99px; overflow: hidden; }
+  .progress-fill  { height: 100%; background: #2C5F8A; border-radius: 99px; transition: width 0.4s; }
+
+  /* SECTION */
+  .section { background: #fff; border: 1px solid #E4E2DC; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+  .sec-header {
+    padding: 11px 14px; display: flex; align-items: center; gap: 8px;
+    cursor: pointer; user-select: none; border-bottom: 1px solid #E4E2DC;
+  }
+  .sec-header.collapsed { border-bottom: none; }
+  .sec-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .sec-title { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; flex: 1; }
+  .sec-count { font-size: 9px; color: #9B9690; font-family: monospace; }
+  .sec-active-badge { font-size: 9px; border-radius: 99px; padding: 1px 6px; font-weight: 700; }
+  .sec-chevron { font-size: 11px; color: #9B9690; transition: transform 0.2s; }
+  .sec-chevron.rotated { transform: rotate(-90deg); }
+
+  /* SUBSECTION LABEL */
+  .sub-label {
+    font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em;
+    color: #9B9690; padding: 8px 14px 3px; border-top: 1px dashed #E4E2DC;
+  }
+  .sub-label.first { border-top: none; }
+
+  /* TASK ROW */
+  .task-row {
+    display: flex; align-items: flex-start; gap: 9px;
+    padding: 9px 14px; transition: opacity 0.2s; position: relative;
+  }
+  .task-row.dimmed { opacity: 0.35; }
+
+  /* ACTIVATION — STAR */
+  .star-btn {
+    background: none; border: none; padding: 0; cursor: pointer;
+    margin-top: 2px; flex-shrink: 0; line-height: 1;
+    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; transition: background 0.15s;
+  }
+  .star-btn:active { background: #FDF8EC; }
+
+  /* ACTIVATION — TOGGLE */
+  .toggle-wrap {
+    margin-top: 4px; flex-shrink: 0; cursor: pointer;
+    width: 30px; height: 17px; border-radius: 99px;
+    position: relative; transition: background 0.18s;
+  }
+  .toggle-thumb {
+    position: absolute; top: 2px; width: 13px; height: 13px;
+    border-radius: 50%; background: #fff;
+    transition: left 0.18s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  /* DONE CHECKBOX */
+  .done-check {
+    margin-top: 4px; width: 17px; height: 17px; flex-shrink: 0;
+    cursor: pointer; accent-color: #2C5F8A;
+    border-radius: 4px;
+  }
+
+  /* TASK TEXT */
+  .task-body { flex: 1; min-width: 0; }
+  .task-text { font-size: 14px; line-height: 1.5; transition: all 0.2s; }
+  .task-text.done { text-decoration: line-through; color: #9B9690; }
+
+  /* BADGES */
+  .badges { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+  .badge { font-size: 9px; font-weight: 700; border-radius: 99px; padding: 1px 6px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .badge-prio { background: #FFF3ED; color: #C4622D; }
+  .badge-amt  { background: #F8E8E8; color: #8A2C2C; font-family: monospace; font-weight: 600; text-transform: none; }
+
+  /* DELETE BTN */
+  .del-btn {
+    background: none; border: none; cursor: pointer; color: #C8C5BF;
+    font-size: 14px; padding: 2px 4px; flex-shrink: 0; margin-top: 1px;
+    border-radius: 4px; transition: color 0.15s, background 0.15s;
+    opacity: 1; /* always visible on mobile */
+  }
+  .del-btn:active { color: #C4622D; background: #FFF3ED; }
+
+  /* FOOTER */
+  .footer { text-align: center; font-size: 9px; color: #9B9690; font-family: monospace; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>To-Do · 08 juin</h1>
+    <div class="date" id="dateEl"></div>
+  </div>
+  <div class="switcher">
+    <span>Activation</span>
+    <button class="sw-btn active-star" id="btn-star" onclick="setStyle('star')">⭐ Étoile</button>
+    <button class="sw-btn" id="btn-toggle" onclick="setStyle('toggle')">⏺ Toggle</button>
+  </div>
+</div>
+
+<div class="progress-card">
+  <div class="progress-top">
+    <span class="progress-label" id="prog-label">Activez des tâches pour démarrer</span>
+    <span class="progress-pct" id="prog-pct">0%</span>
+    <span class="save-status save-ok" id="save-msg">✓</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+</div>
+
+<div id="app"></div>
+
+<div class="footer" id="footer"></div>
+
+<script>
+const STORAGE_KEY = "todo-08062026-v3";
+
+const SECTIONS = [
+  { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0", dotC:"#1D6B4E",
+    subsections:[
+      { label:"Comptes-rendus", tasks:[
+        {id:"p1",text:"CR 121 Philippe Chekroun"},
+        {id:"p2",text:"CR Christophe"},
+        {id:"p3",text:"CR Didier"},
+        {id:"p4",text:"CR Aventure"},
+        {id:"p5",text:"CR 121 Luc Nadier"},
+        {id:"p6",text:"CR 121 Devarchi"},
+        {id:"p7",text:"CR 121 Pierre-Jean Malgouyres"},
+        {id:"p8",text:"CR 121 EBC",priority:true},
+      ]},
+      { label:"Livrables", tasks:[
+        {id:"p9",text:"MER Europrod × Aquarelia",priority:true},
+        {id:"p10",text:"Relecture rapport Studiava"},
+        {id:"p11",text:"Facteur de réussite d'un hub",priority:true},
+        {id:"p12",text:"Envoi PPT séminaire Novelis",priority:true},
+      ]},
+    ]
+  },
+  { id:"claude", label:"Claude", dot:"#6B3FA0", bg:"#F0E8FA",
+    subsections:[
+      { label:null, tasks:[
+        {id:"c1",text:"Prévisionnel trésorerie FLM",priority:true},
+        {id:"c2",text:"Maison Champeix → rapport"},
+        {id:"c3",text:"Tableau de bord suivi Plan Perf Commerce",priority:true},
+        {id:"c4",text:"Plan stratégique 2026-2027 (advisor, board member, apports…)"},
+      ]},
+    ]
+  },
+  { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
+    subsections:[
+      { label:"Relances formation neuro", tasks:[
+        {id:"co1",text:"JB Falque, Derai, Léa, Emmanuel — (négatif : Anton, Vincent)",priority:true},
+      ]},
+      { label:"Relances COS", tasks:[
+        {id:"co2",text:"Émilie Sabourin (LV), Ariane Tromiroff (SBM), Audrey Labèque (Satelia), Capucine Van Hyft (ex-HSBC), Charles Denechere (OVH), Charles Henry (Amaxeria), Ariane Lengaigne (Akacia), Gisela Sanchez (Finance Innovation)",priority:true},
+      ]},
+      { label:"RV Qualif — à recaler", tasks:[
+        {id:"co3",text:"Guignard"},{id:"co4",text:"Uzzo"},
+        {id:"co5",text:"Ruelle",doneInit:true},
+        {id:"co6",text:"Couret Ginoux"},{id:"co7",text:"Bourrayne"},
+        {id:"co8",text:"Montasser"},{id:"co9",text:"Vassalucci"},
+      ]},
+      { label:"RV — Objectifs qualité", tasks:[
+        {id:"co10",text:"Charles Ruelle → Caler prochain RDV + éveiller intérêt coaching",priority:true},
+        {id:"co11",text:"Florian Courte Ginoux"},
+      ]},
+      { label:"Propositions à envoyer", tasks:[
+        {id:"co12",text:"EBC → Adrien Laffon",priority:true},
+        {id:"co13",text:"Luc Nadier / Safee"},
+        {id:"co14",text:"Adil Cherkaoui"},
+        {id:"co15",text:"Pierre-Jean Malgouyres / Archetype"},
+      ]},
+      { label:"Propositions à relancer", tasks:[
+        {id:"co16",text:"Blancrème / C. Delorme",priority:true},
+        {id:"co17",text:"Ocyos / Albien Préhu"},
+      ]},
+      { label:"Relance prise de contact", tasks:[
+        {id:"co18",text:"MyTMA / Marc de Rivoyre"},
+        {id:"co19",text:"JB Avierinos / Invested"},
+        {id:"co20",text:"Florent Pitoun / Xperience",priority:true},
+        {id:"co21",text:"Ventio"},{id:"co22",text:"Stanislas Chertock"},
+        {id:"co23",text:"Melvin Beaury"},
+        {id:"co24",text:"Julien Parandero / Heaume Group"},
+      ]},
+      { label:"Recommandations réseau", tasks:[
+        {id:"co25",text:"Grisbi (via Florent)"},{id:"co26",text:"Wassim Benouis"},
+        {id:"co27",text:"Samuel St-Laurent"},{id:"co28",text:"Marc Hammani"},
+      ]},
+      { label:"Recommandations en RV", tasks:[
+        {id:"co29",text:"French Prop Tech"},
+        {id:"co30",text:"Christophe Gellé",priority:true},
+        {id:"co31",text:"Dîner Parnasse → min. 2 contacts pipe + 1 RDV",priority:true},
+      ]},
+      { label:"Soirées & Cross Partners", tasks:[
+        {id:"co32",text:"Soirée One Avocat (18/06) : demander cibles à Robin"},
+        {id:"co33",text:"Award IMT (24/06) : demander liste invités"},
+        {id:"co34",text:"Fred R. : écosystèmes atypiques (Zu Accélérateur + Marc Hammani)"},
+        {id:"co35",text:"Nicolas C. : 1 nouveau Fonds"},
+        {id:"co36",text:"Pierre F. : retour fiche Couderc Dinh"},
+      ]},
+    ]
+  },
+  { id:"orga", label:"Organisation", dot:"#2C5F8A", bg:"#E8F0F8",
+    subsections:[
+      { label:null, tasks:[
+        {id:"o1",text:"Plan économie"},
+        {id:"o2",text:"Caler RV Stéphane Oria",priority:true},
+        {id:"o3",text:"Caler RV Gilles Aubagnac",priority:true},
+        {id:"o4",text:"Recaler visio C. Delorme",priority:true},
+      ]},
+    ]
+  },
+  { id:"recouvrement", label:"Recouvrement", dot:"#8A2C2C", bg:"#F8E8E8",
+    subsections:[
+      { label:null, tasks:[
+        {id:"r1",text:"Oria — 3×4 500€ (mars→mai) + validation nouveau format",priority:true,montant:"13 500 €"},
+        {id:"r2",text:"Conteco / SIG — 6×1 500€ (déc→mai)",montant:"9 000 €"},
+        {id:"r3",text:"Champeix — 3×1 500€",priority:true,montant:"4 500 €"},
+        {id:"r4",text:"Visconti — 5 600€ + 2 600€ + 3 500€",priority:true,montant:"11 700 €"},
+        {id:"r5",text:"Quad — 3 500€ + 3 500€ (fév, avr, mai)",montant:"7 000 €"},
+        {id:"r6",text:"Ophtabox — 3×2 000€ + 3 000€",priority:true,montant:"9 000 €"},
+        {id:"r7",text:"Lycaon — 3×2 500€ (mars→mai)",montant:"7 500 €"},
+        {id:"r8",text:"Carbon — 2×3 000€ (juil, août)",priority:true,montant:"6 000 €"},
+        {id:"r9",text:"Puissance Cap",priority:true,montant:"10 000 €"},
+      ]},
+    ]
+  },
+  { id:"conteco", label:"Conteco", dot:"#5A7A2C", bg:"#EEF4E8",
+    subsections:[
+      { label:null, tasks:[
+        {id:"ct1",text:"Mail Milad / Fadwa"},
+        {id:"ct2",text:"Call Maxime Lemaire"},
+        {id:"ct3",text:"Call Georges Besson / Sète"},
+        {id:"ct4",text:"RV Fany Rui",priority:true},
+        {id:"ct5",text:"Visio ou RV Marc",priority:true},
+      ]},
+    ]
+  },
+  { id:"admin", label:"Admin & Perso", dot:"#5A5A8A", bg:"#EEEEF8",
+    subsections:[
+      { label:"Santé", tasks:[
+        {id:"a1",text:"Cardio"},
+        {id:"a2",text:"Dermato",priority:true},
+        {id:"a3",text:"Consultation sommeil"},
+        {id:"a4",text:"Call Lane Petit",priority:true},
+      ]},
+      { label:"Administratif", tasks:[
+        {id:"a5",text:"Annuler assurance Valmante"},
+        {id:"a6",text:"Annuler assurance Eurosud / Orrians"},
+        {id:"a7",text:"Voir règlement procès Vacon"},
+        {id:"a8",text:"Déclaration biens immobiliers Vacon"},
+        {id:"a9",text:"MAJ situation CNAV"},
+      ]},
+      { label:"Note secrétariat", tasks:[
+        {id:"a10",text:"Dr Heuzé Loubet — patient Marseille, suivi validé, peut appeler début janvier (04 86 84 29 02)"},
+      ]},
+    ]
+  },
+];
+
+const ALL_TASKS = SECTIONS.flatMap(s => s.subsections.flatMap(sub => sub.tasks));
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let state = { ts:{}, style:"star", col:{} };
+
+// Init default
+ALL_TASKS.forEach(t => {
+  state.ts[t.id] = { active:false, done: t.doneInit||false, deleted:false };
+});
+
+// Load localStorage
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (saved.ts) Object.keys(saved.ts).forEach(id => {
+      if (state.ts[id]) state.ts[id] = { ...state.ts[id], ...saved.ts[id] };
+    });
+    if (saved.style) state.style = saved.style;
+    if (saved.col) state.col = saved.col;
+  } catch {}
+}
+
+let saveTimer = null;
+function scheduleSave() {
+  setSaveMsg("…", "wait");
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      setSaveMsg("✓ Sauvegardé", "ok");
+    } catch { setSaveMsg("⚠ Erreur", "err"); }
+  }, 600);
+}
+
+function setSaveMsg(txt, type) {
+  const el = document.getElementById("save-msg");
+  if (!el) return;
+  el.textContent = txt;
+  el.className = "save-status save-" + (type||"ok");
+}
+
+// ── ACTIONS ────────────────────────────────────────────────────────────────
+function toggleActive(id) {
+  state.ts[id].active = !state.ts[id].active;
+  scheduleSave(); updateTask(id); updateProgress(); updateSecCount();
+}
+function toggleDone(id) {
+  state.ts[id].done = !state.ts[id].done;
+  scheduleSave(); updateTask(id); updateProgress(); updateSecCount();
+}
+function deleteTask(id) {
+  state.ts[id].deleted = true;
+  scheduleSave();
+  const el = document.getElementById("task-"+id);
+  if (el) { el.style.transition="opacity 0.2s"; el.style.opacity="0"; setTimeout(()=>{ el.remove(); updateProgress(); updateSecCount(); },220); }
+}
+function setStyle(s) {
+  state.style = s;
+  scheduleSave();
+  document.getElementById("btn-star").className   = "sw-btn" + (s==="star"   ? " active-star"   : "");
+  document.getElementById("btn-toggle").className = "sw-btn" + (s==="toggle" ? " active-toggle" : "");
+  // Re-render activation controls only
+  ALL_TASKS.forEach(t => { if (!state.ts[t.id]?.deleted) updateActivation(t.id); });
+}
+function toggleCol(id) {
+  state.col[id] = !state.col[id];
+  scheduleSave();
+  const body = document.getElementById("sec-body-"+id);
+  const hdr  = document.getElementById("sec-hdr-"+id);
+  const chev = document.getElementById("sec-chev-"+id);
+  if (body) body.style.display = state.col[id] ? "none" : "block";
+  if (hdr)  hdr.classList.toggle("collapsed", state.col[id]);
+  if (chev) chev.classList.toggle("rotated", state.col[id]);
+}
+
+// ── DOM HELPERS ────────────────────────────────────────────────────────────
+function updateTask(id) {
+  const s = state.ts[id];
+  const row = document.getElementById("task-"+id);
+  if (!row) return;
+  const dimmed = !s.active && !s.done;
+  row.classList.toggle("dimmed", dimmed);
+  const txt = row.querySelector(".task-text");
+  if (txt) { txt.classList.toggle("done", s.done); }
+  const cb = row.querySelector(".done-check");
+  if (cb) cb.checked = s.done;
+  updateActivation(id);
+}
+
+function updateActivation(id) {
+  const s = state.ts[id];
+  const wrap = document.getElementById("act-"+id);
+  if (!wrap) return;
+  if (state.style === "star") {
+    wrap.innerHTML = starSVG(s.active);
+    wrap.className = "star-btn";
+    wrap.onclick = () => toggleActive(id);
+  } else {
+    wrap.className = "toggle-wrap";
+    wrap.style.background = s.active ? "#2C5F8A" : "#DDDAD4";
+    wrap.innerHTML = `<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;
+    wrap.onclick = () => toggleActive(id);
+  }
+}
+
+function updateProgress() {
+  const active = ALL_TASKS.filter(t => !state.ts[t.id]?.deleted && state.ts[t.id]?.active);
+  const done   = active.filter(t => state.ts[t.id]?.done);
+  const pct    = active.length ? Math.round(done.length/active.length*100) : 0;
+  document.getElementById("prog-fill").style.width = pct+"%";
+  document.getElementById("prog-pct").textContent  = pct+"%";
+  document.getElementById("prog-label").textContent =
+    active.length===0 ? "Activez des tâches pour démarrer" : `${done.length} / ${active.length} tâches du jour`;
+  const total = ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
+  document.getElementById("footer").textContent = `${total} tâches · Sauvegarde auto (localStorage)`;
+}
+
+function updateSecCount() {
+  SECTIONS.forEach(sec => {
+    const allT = sec.subsections.flatMap(s=>s.tasks).filter(t=>!state.ts[t.id]?.deleted);
+    const nDone = allT.filter(t=>state.ts[t.id]?.done).length;
+    const nAct  = allT.filter(t=>state.ts[t.id]?.active).length;
+    const countEl = document.getElementById("sec-count-"+sec.id);
+    const badgeEl = document.getElementById("sec-badge-"+sec.id);
+    if (countEl) countEl.textContent = nDone+"/"+allT.length;
+    if (badgeEl) {
+      badgeEl.textContent = nAct > 0 ? nAct+" actives" : "";
+      badgeEl.style.display = nAct > 0 ? "" : "none";
+    }
+  });
+}
+
+function starSVG(filled) {
+  const fill   = filled ? "#D4900A" : "none";
+  const stroke = filled ? "#D4900A" : "#C8C5BF";
+  return `<svg width="16" height="16" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+}
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+function render() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+
+  SECTIONS.forEach(sec => {
+    const allT = sec.subsections.flatMap(s=>s.tasks).filter(t=>!state.ts[t.id]?.deleted);
+    if (!allT.length) return;
+    const nDone = allT.filter(t=>state.ts[t.id]?.done).length;
+    const nAct  = allT.filter(t=>state.ts[t.id]?.active).length;
+    const isCol = state.col[sec.id];
+
+    const secEl = document.createElement("div");
+    secEl.className = "section";
+
+    // Header
+    const hdr = document.createElement("div");
+    hdr.className = "sec-header" + (isCol?" collapsed":"");
+    hdr.id = "sec-hdr-"+sec.id;
+    hdr.onclick = () => toggleCol(sec.id);
+    hdr.innerHTML = `
+      <div class="sec-dot" style="background:${sec.dot}"></div>
+      <span class="sec-title" style="color:${sec.dot}">${sec.label}</span>
+      <span class="sec-count" id="sec-count-${sec.id}">${nDone}/${allT.length}</span>
+      <span class="sec-active-badge" id="sec-badge-${sec.id}"
+        style="background:${sec.bg};color:${sec.dot};display:${nAct>0?"":"none"}">${nAct>0?nAct+" actives":""}</span>
+      <span class="sec-chevron${isCol?" rotated":""}" id="sec-chev-${sec.id}">▾</span>
+    `;
+    secEl.appendChild(hdr);
+
+    // Body
+    const body = document.createElement("div");
+    body.id = "sec-body-"+sec.id;
+    body.style.display = isCol ? "none" : "block";
+
+    sec.subsections.forEach((sub, si) => {
+      const vis = sub.tasks.filter(t=>!state.ts[t.id]?.deleted);
+      if (!vis.length) return;
+
+      if (sub.label) {
+        const lbl = document.createElement("div");
+        lbl.className = "sub-label" + (si===0?" first":"");
+        lbl.textContent = sub.label;
+        body.appendChild(lbl);
+      }
+
+      vis.forEach(task => {
+        const s = state.ts[task.id];
+        const dimmed = !s.active && !s.done;
+
+        const row = document.createElement("div");
+        row.className = "task-row" + (dimmed?" dimmed":"");
+        row.id = "task-"+task.id;
+
+        // Activation control
+        const actWrap = document.createElement(state.style==="star" ? "button" : "div");
+        actWrap.id = "act-"+task.id;
+        if (state.style==="star") {
+          actWrap.className = "star-btn";
+          actWrap.innerHTML = starSVG(s.active);
+        } else {
+          actWrap.className = "toggle-wrap";
+          actWrap.style.background = s.active ? "#2C5F8A" : "#DDDAD4";
+          actWrap.innerHTML = `<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;
+        }
+        actWrap.onclick = (e) => { e.stopPropagation(); toggleActive(task.id); };
+
+        // Done checkbox
+        const cb = document.createElement("input");
+        cb.type = "checkbox"; cb.className = "done-check"; cb.checked = s.done;
+        cb.onchange = () => toggleDone(task.id);
+
+        // Text + badges
+        const bodyDiv = document.createElement("div");
+        bodyDiv.className = "task-body";
+        const txt = document.createElement("span");
+        txt.className = "task-text" + (s.done?" done":"");
+        txt.textContent = task.text;
+        bodyDiv.appendChild(txt);
+
+        if (task.priority || task.montant) {
+          const badges = document.createElement("div");
+          badges.className = "badges";
+          if (task.priority) { const b=document.createElement("span"); b.className="badge badge-prio"; b.textContent="⚡ Prioritaire"; badges.appendChild(b); }
+          if (task.montant)  { const b=document.createElement("span"); b.className="badge badge-amt";  b.textContent=task.montant; badges.appendChild(b); }
+          bodyDiv.appendChild(badges);
+        }
+
+        // Delete button
+        const del = document.createElement("button");
+        del.className = "del-btn"; del.textContent = "✕"; del.title = "Supprimer";
+        del.onclick = (e) => { e.stopPropagation(); deleteTask(task.id); };
+
+        row.appendChild(actWrap);
+        row.appendChild(cb);
+        row.appendChild(bodyDiv);
+        row.appendChild(del);
+        body.appendChild(row);
+      });
+    });
+
+    secEl.appendChild(body);
+    app.appendChild(secEl);
+  });
+
+  updateProgress();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+const d = new Date();
+document.getElementById("dateEl").textContent =
+  d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).toUpperCase();
+
+load();
+render();
+</script>
+</body>
+</html>
