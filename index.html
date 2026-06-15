@@ -79,6 +79,14 @@
 </div>
 
 <div id="app"></div>
+
+<div style="margin:16px 0 8px;text-align:center;">
+  <button onclick="exportState()" style="background:#2C5F8A;color:#fff;border:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;width:100%;">
+    &#128228; Exporter mon état (mise à jour hebdo)
+  </button>
+  <div id="export-msg" style="font-size:10px;color:#5A7A2C;margin-top:6px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
+</div>
+
 <div class="footer" id="footer"></div>
 
 <script>
@@ -374,6 +382,18 @@ function render() {
     secEl.appendChild(body); app.appendChild(secEl);
   });
   updateProgress();
+}
+
+function exportState() {
+  const done = Object.entries(state.ts)
+    .filter(([id, s]) => s.done || s.deleted)
+    .map(([id, s]) => ({ id, done: s.done, deleted: s.deleted }));
+  const code = "EXPORT:" + btoa(JSON.stringify(done));
+  navigator.clipboard.writeText(code).then(() => {
+    const msg = document.getElementById("export-msg");
+    msg.style.display = "block";
+    setTimeout(() => { msg.style.display = "none"; }, 4000);
+  });
 }
 
 document.getElementById("dateEl").textContent=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).toUpperCase();
