@@ -3,59 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>To-Do · 08 juin 2026</title>
+<title>To-Do · 15 juin 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #F7F6F3;
-    color: #1A1916;
-    padding: 16px 12px 80px;
-    min-height: 100vh;
-  }
-
-  /* HEADER */
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F7F6F3; color: #1A1916; padding: 16px 12px 80px; min-height: 100vh; }
   .header { margin-bottom: 14px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.2; }
   .header .date { font-size: 10px; color: #9B9690; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
-
-  /* STYLE SWITCHER */
-  .switcher {
-    display: flex; align-items: center; gap: 5px;
-    background: #fff; border: 1px solid #E4E2DC; border-radius: 8px; padding: 5px 8px;
-    flex-shrink: 0;
-  }
+  .switcher { display: flex; align-items: center; gap: 5px; background: #fff; border: 1px solid #E4E2DC; border-radius: 8px; padding: 5px 8px; flex-shrink: 0; }
   .switcher span { font-size: 9px; color: #9B9690; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-  .sw-btn {
-    border-radius: 6px; padding: 3px 7px; border: 1px solid transparent;
-    font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.15s; background: transparent;
-  }
-  .sw-btn.active-star  { background: #FDF8EC; border-color: #D4900A; color: #D4900A; }
+  .sw-btn { border-radius: 6px; padding: 3px 7px; border: 1px solid transparent; font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.15s; background: transparent; }
+  .sw-btn.active-star { background: #FDF8EC; border-color: #D4900A; color: #D4900A; }
   .sw-btn.active-toggle { background: #EEF4FF; border-color: #2C5F8A; color: #2C5F8A; }
   .sw-btn:not([class*="active"]) { color: #9B9690; }
-
-  /* PROGRESS */
-  .progress-card {
-    background: #fff; border: 1px solid #E4E2DC; border-radius: 10px;
-    padding: 12px 14px; margin-bottom: 14px;
-  }
+  .progress-card { background: #fff; border: 1px solid #E4E2DC; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
   .progress-top { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
   .progress-label { font-size: 11px; color: #9B9690; font-family: monospace; flex: 1; }
   .progress-pct { font-size: 11px; font-weight: 700; color: #2C5F8A; font-family: monospace; }
   .save-status { font-size: 9px; }
-  .save-ok   { color: #5A7A2C; }
-  .save-wait { color: #9B9690; }
-  .save-err  { color: #8A2C2C; }
+  .save-ok { color: #5A7A2C; } .save-wait { color: #9B9690; } .save-err { color: #8A2C2C; }
   .progress-track { height: 5px; background: #E4E2DC; border-radius: 99px; overflow: hidden; }
-  .progress-fill  { height: 100%; background: #2C5F8A; border-radius: 99px; transition: width 0.4s; }
-
-  /* SECTION */
+  .progress-fill { height: 100%; background: #2C5F8A; border-radius: 99px; transition: width 0.4s; }
   .section { background: #fff; border: 1px solid #E4E2DC; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
-  .sec-header {
-    padding: 11px 14px; display: flex; align-items: center; gap: 8px;
-    cursor: pointer; user-select: none; border-bottom: 1px solid #E4E2DC;
-  }
+  .sec-header { padding: 11px 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; border-bottom: 1px solid #E4E2DC; }
   .sec-header.collapsed { border-bottom: none; }
   .sec-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .sec-title { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; flex: 1; }
@@ -63,70 +33,25 @@
   .sec-active-badge { font-size: 9px; border-radius: 99px; padding: 1px 6px; font-weight: 700; }
   .sec-chevron { font-size: 11px; color: #9B9690; transition: transform 0.2s; }
   .sec-chevron.rotated { transform: rotate(-90deg); }
-
-  /* SUBSECTION LABEL */
-  .sub-label {
-    font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em;
-    color: #9B9690; padding: 8px 14px 3px; border-top: 1px dashed #E4E2DC;
-  }
+  .sub-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: #9B9690; padding: 8px 14px 3px; border-top: 1px dashed #E4E2DC; }
   .sub-label.first { border-top: none; }
-
-  /* TASK ROW */
-  .task-row {
-    display: flex; align-items: flex-start; gap: 9px;
-    padding: 9px 14px; transition: opacity 0.2s; position: relative;
-  }
+  .task-row { display: flex; align-items: flex-start; gap: 9px; padding: 9px 14px; transition: opacity 0.2s; position: relative; }
   .task-row.dimmed { opacity: 0.35; }
-
-  /* ACTIVATION — STAR */
-  .star-btn {
-    background: none; border: none; padding: 0; cursor: pointer;
-    margin-top: 2px; flex-shrink: 0; line-height: 1;
-    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-    border-radius: 6px; transition: background 0.15s;
-  }
+  .star-btn { background: none; border: none; padding: 0; cursor: pointer; margin-top: 2px; flex-shrink: 0; line-height: 1; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: background 0.15s; }
   .star-btn:active { background: #FDF8EC; }
-
-  /* ACTIVATION — TOGGLE */
-  .toggle-wrap {
-    margin-top: 4px; flex-shrink: 0; cursor: pointer;
-    width: 30px; height: 17px; border-radius: 99px;
-    position: relative; transition: background 0.18s;
-  }
-  .toggle-thumb {
-    position: absolute; top: 2px; width: 13px; height: 13px;
-    border-radius: 50%; background: #fff;
-    transition: left 0.18s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
-
-  /* DONE CHECKBOX */
-  .done-check {
-    margin-top: 4px; width: 17px; height: 17px; flex-shrink: 0;
-    cursor: pointer; accent-color: #2C5F8A;
-    border-radius: 4px;
-  }
-
-  /* TASK TEXT */
+  .toggle-wrap { margin-top: 4px; flex-shrink: 0; cursor: pointer; width: 30px; height: 17px; border-radius: 99px; position: relative; transition: background 0.18s; }
+  .toggle-thumb { position: absolute; top: 2px; width: 13px; height: 13px; border-radius: 50%; background: #fff; transition: left 0.18s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .done-check { margin-top: 4px; width: 17px; height: 17px; flex-shrink: 0; cursor: pointer; accent-color: #2C5F8A; }
   .task-body { flex: 1; min-width: 0; }
   .task-text { font-size: 14px; line-height: 1.5; transition: all 0.2s; }
   .task-text.done { text-decoration: line-through; color: #9B9690; }
-
-  /* BADGES */
   .badges { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
   .badge { font-size: 9px; font-weight: 700; border-radius: 99px; padding: 1px 6px; text-transform: uppercase; letter-spacing: 0.03em; }
   .badge-prio { background: #FFF3ED; color: #C4622D; }
-  .badge-amt  { background: #F8E8E8; color: #8A2C2C; font-family: monospace; font-weight: 600; text-transform: none; }
-
-  /* DELETE BTN */
-  .del-btn {
-    background: none; border: none; cursor: pointer; color: #C8C5BF;
-    font-size: 14px; padding: 2px 4px; flex-shrink: 0; margin-top: 1px;
-    border-radius: 4px; transition: color 0.15s, background 0.15s;
-    opacity: 1; /* always visible on mobile */
-  }
+  .badge-amt { background: #F8E8E8; color: #8A2C2C; font-family: monospace; font-weight: 600; text-transform: none; }
+  .badge-new { background: #E8F4F0; color: #1D6B4E; }
+  .del-btn { background: none; border: none; cursor: pointer; color: #C8C5BF; font-size: 14px; padding: 2px 4px; flex-shrink: 0; margin-top: 1px; border-radius: 4px; transition: color 0.15s, background 0.15s; }
   .del-btn:active { color: #C4622D; background: #FFF3ED; }
-
-  /* FOOTER */
   .footer { text-align: center; font-size: 9px; color: #9B9690; font-family: monospace; margin-top: 16px; }
 </style>
 </head>
@@ -134,7 +59,7 @@
 
 <div class="header">
   <div>
-    <h1>To-Do · 08 juin</h1>
+    <h1>To-Do · 15 juin</h1>
     <div class="date" id="dateEl"></div>
   </div>
   <div class="switcher">
@@ -154,14 +79,13 @@
 </div>
 
 <div id="app"></div>
-
 <div class="footer" id="footer"></div>
 
 <script>
-const STORAGE_KEY = "todo-08062026-v3";
+const STORAGE_KEY = "todo-15062026-v1";
 
 const SECTIONS = [
-  { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0", dotC:"#1D6B4E",
+  { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
       { label:"Comptes-rendus", tasks:[
         {id:"p1",text:"CR 121 Philippe Chekroun"},
@@ -173,6 +97,14 @@ const SECTIONS = [
         {id:"p7",text:"CR 121 Pierre-Jean Malgouyres"},
         {id:"p8",text:"CR 121 EBC",priority:true},
         {id:"p13",text:"CR 121 Charles Ruelle"},
+        {id:"p15",text:"CR Stéphane O.",isNew:true},
+        {id:"p16",text:"CR Julien",isNew:true},
+        {id:"p17",text:"CR Stéphane D.",isNew:true},
+        {id:"p18",text:"CR Eytan",isNew:true},
+        {id:"p19",text:"CR Gilles",isNew:true},
+        {id:"p20",text:"CR Maely",isNew:true},
+        {id:"p21",text:"CR 121 Damien Pacouil",isNew:true},
+        {id:"p22",text:"CR 121 Michael Dufour",isNew:true},
       ]},
       { label:"Livrables", tasks:[
         {id:"p9",text:"MER Europrod × Aquarelia",priority:true},
@@ -203,7 +135,6 @@ const SECTIONS = [
       ]},
       { label:"RV Qualif — à recaler", tasks:[
         {id:"co3",text:"Guignard"},{id:"co4",text:"Uzzo"},
-        {id:"co5",text:"Ruelle",doneInit:true},
         {id:"co6",text:"Couret Ginoux"},{id:"co7",text:"Bourrayne"},
         {id:"co8",text:"Montasser"},{id:"co9",text:"Vassalucci"},
       ]},
@@ -213,7 +144,7 @@ const SECTIONS = [
       ]},
       { label:"Propositions à envoyer", tasks:[
         {id:"co12",text:"EBC → Adrien Laffon",priority:true},
-        {id:"co37",text:"Envoyer proposition Charles Ruelle"},
+        {id:"co37",text:"Charles Ruelle"},
         {id:"co13",text:"Luc Nadier / Safee"},
         {id:"co14",text:"Adil Cherkaoui"},
         {id:"co15",text:"Pierre-Jean Malgouyres / Archetype"},
@@ -307,24 +238,15 @@ const SECTIONS = [
 ];
 
 const ALL_TASKS = SECTIONS.flatMap(s => s.subsections.flatMap(sub => sub.tasks));
-
-// ── STATE ──────────────────────────────────────────────────────────────────
 let state = { ts:{}, style:"star", col:{} };
+ALL_TASKS.forEach(t => { state.ts[t.id] = { active:false, done:false, deleted:false }; });
 
-// Init default
-ALL_TASKS.forEach(t => {
-  state.ts[t.id] = { active:false, done: t.doneInit||false, deleted:false };
-});
-
-// Load localStorage
 function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     const saved = JSON.parse(raw);
-    if (saved.ts) Object.keys(saved.ts).forEach(id => {
-      if (state.ts[id]) state.ts[id] = { ...state.ts[id], ...saved.ts[id] };
-    });
+    if (saved.ts) Object.keys(saved.ts).forEach(id => { if (state.ts[id]) state.ts[id] = { ...state.ts[id], ...saved.ts[id] }; });
     if (saved.style) state.style = saved.style;
     if (saved.col) state.col = saved.col;
   } catch {}
@@ -332,235 +254,130 @@ function load() {
 
 let saveTimer = null;
 function scheduleSave() {
-  setSaveMsg("…", "wait");
+  setSaveMsg("…","wait");
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      setSaveMsg("✓ Sauvegardé", "ok");
-    } catch { setSaveMsg("⚠ Erreur", "err"); }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); setSaveMsg("✓ Sauvegardé","ok"); }
+    catch { setSaveMsg("⚠ Erreur","err"); }
   }, 600);
 }
+function setSaveMsg(txt,type) { const el=document.getElementById("save-msg"); if(el){el.textContent=txt;el.className="save-status save-"+(type||"ok");} }
 
-function setSaveMsg(txt, type) {
-  const el = document.getElementById("save-msg");
-  if (!el) return;
-  el.textContent = txt;
-  el.className = "save-status save-" + (type||"ok");
-}
-
-// ── ACTIONS ────────────────────────────────────────────────────────────────
-function toggleActive(id) {
-  state.ts[id].active = !state.ts[id].active;
-  scheduleSave(); updateTask(id); updateProgress(); updateSecCount();
-}
-function toggleDone(id) {
-  state.ts[id].done = !state.ts[id].done;
-  scheduleSave(); updateTask(id); updateProgress(); updateSecCount();
-}
+function toggleActive(id) { state.ts[id].active=!state.ts[id].active; scheduleSave(); updateTask(id); updateProgress(); updateSecCount(); }
+function toggleDone(id) { state.ts[id].done=!state.ts[id].done; scheduleSave(); updateTask(id); updateProgress(); updateSecCount(); }
 function deleteTask(id) {
-  state.ts[id].deleted = true;
-  scheduleSave();
-  const el = document.getElementById("task-"+id);
-  if (el) { el.style.transition="opacity 0.2s"; el.style.opacity="0"; setTimeout(()=>{ el.remove(); updateProgress(); updateSecCount(); },220); }
+  state.ts[id].deleted=true; scheduleSave();
+  const el=document.getElementById("task-"+id);
+  if(el){el.style.transition="opacity 0.2s";el.style.opacity="0";setTimeout(()=>{el.remove();updateProgress();updateSecCount();},220);}
 }
 function setStyle(s) {
-  state.style = s;
-  scheduleSave();
-  document.getElementById("btn-star").className   = "sw-btn" + (s==="star"   ? " active-star"   : "");
-  document.getElementById("btn-toggle").className = "sw-btn" + (s==="toggle" ? " active-toggle" : "");
-  // Re-render activation controls only
-  ALL_TASKS.forEach(t => { if (!state.ts[t.id]?.deleted) updateActivation(t.id); });
+  state.style=s; scheduleSave();
+  document.getElementById("btn-star").className="sw-btn"+(s==="star"?" active-star":"");
+  document.getElementById("btn-toggle").className="sw-btn"+(s==="toggle"?" active-toggle":"");
+  ALL_TASKS.forEach(t=>{ if(!state.ts[t.id]?.deleted) updateActivation(t.id); });
 }
 function toggleCol(id) {
-  state.col[id] = !state.col[id];
-  scheduleSave();
-  const body = document.getElementById("sec-body-"+id);
-  const hdr  = document.getElementById("sec-hdr-"+id);
-  const chev = document.getElementById("sec-chev-"+id);
-  if (body) body.style.display = state.col[id] ? "none" : "block";
-  if (hdr)  hdr.classList.toggle("collapsed", state.col[id]);
-  if (chev) chev.classList.toggle("rotated", state.col[id]);
+  state.col[id]=!state.col[id]; scheduleSave();
+  const body=document.getElementById("sec-body-"+id);
+  const hdr=document.getElementById("sec-hdr-"+id);
+  const chev=document.getElementById("sec-chev-"+id);
+  if(body) body.style.display=state.col[id]?"none":"block";
+  if(hdr) hdr.classList.toggle("collapsed",state.col[id]);
+  if(chev) chev.classList.toggle("rotated",state.col[id]);
 }
 
-// ── DOM HELPERS ────────────────────────────────────────────────────────────
 function updateTask(id) {
-  const s = state.ts[id];
-  const row = document.getElementById("task-"+id);
-  if (!row) return;
-  const dimmed = !s.active && !s.done;
-  row.classList.toggle("dimmed", dimmed);
-  const txt = row.querySelector(".task-text");
-  if (txt) { txt.classList.toggle("done", s.done); }
-  const cb = row.querySelector(".done-check");
-  if (cb) cb.checked = s.done;
+  const s=state.ts[id];
+  const row=document.getElementById("task-"+id); if(!row) return;
+  row.classList.toggle("dimmed",!s.active&&!s.done);
+  const txt=row.querySelector(".task-text"); if(txt) txt.classList.toggle("done",s.done);
+  const cb=row.querySelector(".done-check"); if(cb) cb.checked=s.done;
   updateActivation(id);
 }
-
 function updateActivation(id) {
-  const s = state.ts[id];
-  const wrap = document.getElementById("act-"+id);
-  if (!wrap) return;
-  if (state.style === "star") {
-    wrap.innerHTML = starSVG(s.active);
-    wrap.className = "star-btn";
-    wrap.onclick = () => toggleActive(id);
+  const s=state.ts[id];
+  const wrap=document.getElementById("act-"+id); if(!wrap) return;
+  if(state.style==="star") {
+    wrap.innerHTML=starSVG(s.active); wrap.className="star-btn"; wrap.onclick=()=>toggleActive(id);
   } else {
-    wrap.className = "toggle-wrap";
-    wrap.style.background = s.active ? "#2C5F8A" : "#DDDAD4";
-    wrap.innerHTML = `<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;
-    wrap.onclick = () => toggleActive(id);
+    wrap.className="toggle-wrap"; wrap.style.background=s.active?"#2C5F8A":"#DDDAD4";
+    wrap.innerHTML=`<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;
+    wrap.onclick=()=>toggleActive(id);
   }
 }
-
 function updateProgress() {
-  const active = ALL_TASKS.filter(t => !state.ts[t.id]?.deleted && state.ts[t.id]?.active);
-  const done   = active.filter(t => state.ts[t.id]?.done);
-  const pct    = active.length ? Math.round(done.length/active.length*100) : 0;
-  document.getElementById("prog-fill").style.width = pct+"%";
-  document.getElementById("prog-pct").textContent  = pct+"%";
-  document.getElementById("prog-label").textContent =
-    active.length===0 ? "Activez des tâches pour démarrer" : `${done.length} / ${active.length} tâches du jour`;
-  const total = ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
-  document.getElementById("footer").textContent = `${total} tâches · Sauvegarde auto (localStorage)`;
+  const active=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted&&state.ts[t.id]?.active);
+  const done=active.filter(t=>state.ts[t.id]?.done);
+  const pct=active.length?Math.round(done.length/active.length*100):0;
+  document.getElementById("prog-fill").style.width=pct+"%";
+  document.getElementById("prog-pct").textContent=pct+"%";
+  document.getElementById("prog-label").textContent=active.length===0?"Activez des tâches pour démarrer":`${done.length} / ${active.length} tâches du jour`;
+  const total=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
+  document.getElementById("footer").textContent=`${total} tâches · Semaine du 15 juin 2026`;
 }
-
 function updateSecCount() {
-  SECTIONS.forEach(sec => {
-    const allT = sec.subsections.flatMap(s=>s.tasks).filter(t=>!state.ts[t.id]?.deleted);
-    const nDone = allT.filter(t=>state.ts[t.id]?.done).length;
-    const nAct  = allT.filter(t=>state.ts[t.id]?.active).length;
-    const countEl = document.getElementById("sec-count-"+sec.id);
-    const badgeEl = document.getElementById("sec-badge-"+sec.id);
-    if (countEl) countEl.textContent = nDone+"/"+allT.length;
-    if (badgeEl) {
-      badgeEl.textContent = nAct > 0 ? nAct+" actives" : "";
-      badgeEl.style.display = nAct > 0 ? "" : "none";
-    }
+  SECTIONS.forEach(sec=>{
+    const allT=sec.subsections.flatMap(s=>s.tasks).filter(t=>!state.ts[t.id]?.deleted);
+    const nDone=allT.filter(t=>state.ts[t.id]?.done).length;
+    const nAct=allT.filter(t=>state.ts[t.id]?.active).length;
+    const countEl=document.getElementById("sec-count-"+sec.id);
+    const badgeEl=document.getElementById("sec-badge-"+sec.id);
+    if(countEl) countEl.textContent=nDone+"/"+allT.length;
+    if(badgeEl){badgeEl.textContent=nAct>0?nAct+" actives":"";badgeEl.style.display=nAct>0?"":"none";}
   });
 }
-
 function starSVG(filled) {
-  const fill   = filled ? "#D4900A" : "none";
-  const stroke = filled ? "#D4900A" : "#C8C5BF";
+  const fill=filled?"#D4900A":"none", stroke=filled?"#D4900A":"#C8C5BF";
   return `<svg width="16" height="16" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 }
 
-// ── RENDER ─────────────────────────────────────────────────────────────────
 function render() {
-  const app = document.getElementById("app");
-  app.innerHTML = "";
-
-  SECTIONS.forEach(sec => {
-    const allT = sec.subsections.flatMap(s=>s.tasks).filter(t=>!state.ts[t.id]?.deleted);
-    if (!allT.length) return;
-    const nDone = allT.filter(t=>state.ts[t.id]?.done).length;
-    const nAct  = allT.filter(t=>state.ts[t.id]?.active).length;
-    const isCol = state.col[sec.id];
-
-    const secEl = document.createElement("div");
-    secEl.className = "section";
-
-    // Header
-    const hdr = document.createElement("div");
-    hdr.className = "sec-header" + (isCol?" collapsed":"");
-    hdr.id = "sec-hdr-"+sec.id;
-    hdr.onclick = () => toggleCol(sec.id);
-    hdr.innerHTML = `
-      <div class="sec-dot" style="background:${sec.dot}"></div>
-      <span class="sec-title" style="color:${sec.dot}">${sec.label}</span>
-      <span class="sec-count" id="sec-count-${sec.id}">${nDone}/${allT.length}</span>
-      <span class="sec-active-badge" id="sec-badge-${sec.id}"
-        style="background:${sec.bg};color:${sec.dot};display:${nAct>0?"":"none"}">${nAct>0?nAct+" actives":""}</span>
-      <span class="sec-chevron${isCol?" rotated":""}" id="sec-chev-${sec.id}">▾</span>
-    `;
+  const app=document.getElementById("app"); app.innerHTML="";
+  SECTIONS.forEach(sec=>{
+    const allT=sec.subsections.flatMap(s=>s.tasks).filter(t=>!state.ts[t.id]?.deleted);
+    if(!allT.length) return;
+    const nDone=allT.filter(t=>state.ts[t.id]?.done).length;
+    const nAct=allT.filter(t=>state.ts[t.id]?.active).length;
+    const isCol=state.col[sec.id];
+    const secEl=document.createElement("div"); secEl.className="section";
+    const hdr=document.createElement("div");
+    hdr.className="sec-header"+(isCol?" collapsed":""); hdr.id="sec-hdr-"+sec.id;
+    hdr.onclick=()=>toggleCol(sec.id);
+    hdr.innerHTML=`<div class="sec-dot" style="background:${sec.dot}"></div><span class="sec-title" style="color:${sec.dot}">${sec.label}</span><span class="sec-count" id="sec-count-${sec.id}">${nDone}/${allT.length}</span><span class="sec-active-badge" id="sec-badge-${sec.id}" style="background:${sec.bg};color:${sec.dot};display:${nAct>0?"":"none"}">${nAct>0?nAct+" actives":""}</span><span class="sec-chevron${isCol?" rotated":""}" id="sec-chev-${sec.id}">▾</span>`;
     secEl.appendChild(hdr);
-
-    // Body
-    const body = document.createElement("div");
-    body.id = "sec-body-"+sec.id;
-    body.style.display = isCol ? "none" : "block";
-
-    sec.subsections.forEach((sub, si) => {
-      const vis = sub.tasks.filter(t=>!state.ts[t.id]?.deleted);
-      if (!vis.length) return;
-
-      if (sub.label) {
-        const lbl = document.createElement("div");
-        lbl.className = "sub-label" + (si===0?" first":"");
-        lbl.textContent = sub.label;
-        body.appendChild(lbl);
-      }
-
-      vis.forEach(task => {
-        const s = state.ts[task.id];
-        const dimmed = !s.active && !s.done;
-
-        const row = document.createElement("div");
-        row.className = "task-row" + (dimmed?" dimmed":"");
-        row.id = "task-"+task.id;
-
-        // Activation control
-        const actWrap = document.createElement(state.style==="star" ? "button" : "div");
-        actWrap.id = "act-"+task.id;
-        if (state.style==="star") {
-          actWrap.className = "star-btn";
-          actWrap.innerHTML = starSVG(s.active);
-        } else {
-          actWrap.className = "toggle-wrap";
-          actWrap.style.background = s.active ? "#2C5F8A" : "#DDDAD4";
-          actWrap.innerHTML = `<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;
-        }
-        actWrap.onclick = (e) => { e.stopPropagation(); toggleActive(task.id); };
-
-        // Done checkbox
-        const cb = document.createElement("input");
-        cb.type = "checkbox"; cb.className = "done-check"; cb.checked = s.done;
-        cb.onchange = () => toggleDone(task.id);
-
-        // Text + badges
-        const bodyDiv = document.createElement("div");
-        bodyDiv.className = "task-body";
-        const txt = document.createElement("span");
-        txt.className = "task-text" + (s.done?" done":"");
-        txt.textContent = task.text;
-        bodyDiv.appendChild(txt);
-
-        if (task.priority || task.montant) {
-          const badges = document.createElement("div");
-          badges.className = "badges";
-          if (task.priority) { const b=document.createElement("span"); b.className="badge badge-prio"; b.textContent="⚡ Prioritaire"; badges.appendChild(b); }
-          if (task.montant)  { const b=document.createElement("span"); b.className="badge badge-amt";  b.textContent=task.montant; badges.appendChild(b); }
+    const body=document.createElement("div"); body.id="sec-body-"+sec.id; body.style.display=isCol?"none":"block";
+    sec.subsections.forEach((sub,si)=>{
+      const vis=sub.tasks.filter(t=>!state.ts[t.id]?.deleted); if(!vis.length) return;
+      if(sub.label){const lbl=document.createElement("div");lbl.className="sub-label"+(si===0?" first":"");lbl.textContent=sub.label;body.appendChild(lbl);}
+      vis.forEach(task=>{
+        const s=state.ts[task.id]; const dimmed=!s.active&&!s.done;
+        const row=document.createElement("div"); row.className="task-row"+(dimmed?" dimmed":""); row.id="task-"+task.id;
+        const actWrap=document.createElement(state.style==="star"?"button":"div"); actWrap.id="act-"+task.id;
+        if(state.style==="star"){actWrap.className="star-btn";actWrap.innerHTML=starSVG(s.active);}
+        else{actWrap.className="toggle-wrap";actWrap.style.background=s.active?"#2C5F8A":"#DDDAD4";actWrap.innerHTML=`<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;}
+        actWrap.onclick=(e)=>{e.stopPropagation();toggleActive(task.id);};
+        const cb=document.createElement("input"); cb.type="checkbox"; cb.className="done-check"; cb.checked=s.done; cb.onchange=()=>toggleDone(task.id);
+        const bodyDiv=document.createElement("div"); bodyDiv.className="task-body";
+        const txt=document.createElement("span"); txt.className="task-text"+(s.done?" done":""); txt.textContent=task.text; bodyDiv.appendChild(txt);
+        if(task.priority||task.montant||task.isNew){
+          const badges=document.createElement("div"); badges.className="badges";
+          if(task.priority){const b=document.createElement("span");b.className="badge badge-prio";b.textContent="⚡ Prioritaire";badges.appendChild(b);}
+          if(task.montant){const b=document.createElement("span");b.className="badge badge-amt";b.textContent=task.montant;badges.appendChild(b);}
+          if(task.isNew){const b=document.createElement("span");b.className="badge badge-new";b.textContent="✦ Nouveau";badges.appendChild(b);}
           bodyDiv.appendChild(badges);
         }
-
-        // Delete button
-        const del = document.createElement("button");
-        del.className = "del-btn"; del.textContent = "✕"; del.title = "Supprimer";
-        del.onclick = (e) => { e.stopPropagation(); deleteTask(task.id); };
-
-        row.appendChild(actWrap);
-        row.appendChild(cb);
-        row.appendChild(bodyDiv);
-        row.appendChild(del);
+        const del=document.createElement("button"); del.className="del-btn"; del.textContent="✕"; del.onclick=(e)=>{e.stopPropagation();deleteTask(task.id);};
+        row.appendChild(actWrap); row.appendChild(cb); row.appendChild(bodyDiv); row.appendChild(del);
         body.appendChild(row);
       });
     });
-
-    secEl.appendChild(body);
-    app.appendChild(secEl);
+    secEl.appendChild(body); app.appendChild(secEl);
   });
-
   updateProgress();
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────
-const d = new Date();
-document.getElementById("dateEl").textContent =
-  d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).toUpperCase();
-
-load();
-render();
+document.getElementById("dateEl").textContent=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).toUpperCase();
+load(); render();
 </script>
 </body>
 </html>
