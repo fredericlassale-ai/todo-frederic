@@ -52,7 +52,9 @@
   .badge-new { background: #E8F4F0; color: #1D6B4E; }
   .del-btn { background: none; border: none; cursor: pointer; color: #C8C5BF; font-size: 14px; padding: 2px 4px; flex-shrink: 0; margin-top: 1px; border-radius: 4px; transition: color 0.15s, background 0.15s; }
   .del-btn:active { color: #C4622D; background: #FFF3ED; }
-  .footer { text-align: center; font-size: 9px; color: #9B9690; font-family: monospace; margin-top: 16px; }
+  .export-btn { background: #2C5F8A; color: #fff; border: none; border-radius: 8px; padding: 11px 20px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; margin: 16px 0 8px; }
+  .export-btn:active { background: #1D4A6E; }
+  .footer { text-align: center; font-size: 9px; color: #9B9690; font-family: monospace; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -64,8 +66,8 @@
   </div>
   <div class="switcher">
     <span>Activation</span>
-    <button class="sw-btn active-star" id="btn-star" onclick="setStyle('star')">⭐ Étoile</button>
-    <button class="sw-btn" id="btn-toggle" onclick="setStyle('toggle')">⏺ Toggle</button>
+    <button class="sw-btn active-star" id="btn-star" onclick="setStyle('star')">&#11088; Étoile</button>
+    <button class="sw-btn" id="btn-toggle" onclick="setStyle('toggle')">&#9898; Toggle</button>
   </div>
 </div>
 
@@ -73,37 +75,29 @@
   <div class="progress-top">
     <span class="progress-label" id="prog-label">Activez des tâches pour démarrer</span>
     <span class="progress-pct" id="prog-pct">0%</span>
-    <span class="save-status save-ok" id="save-msg">✓</span>
+    <span class="save-status save-ok" id="save-msg">&#10003;</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
 </div>
 
 <div id="app"></div>
 
-<div style="margin:16px 0 8px;text-align:center;">
-  <button onclick="exportState()" style="background:#2C5F8A;color:#fff;border:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;width:100%;">
-    &#128228; Exporter mon état (mise à jour hebdo)
-  </button>
-  <div id="export-msg" style="font-size:10px;color:#5A7A2C;margin-top:6px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
-</div>
-
+<button class="export-btn" onclick="exportState()">&#128228; Exporter mon état (mise à jour hebdo)</button>
+<div id="export-msg" style="font-size:10px;color:#5A7A2C;text-align:center;margin-bottom:8px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
 <div class="footer" id="footer"></div>
 
 <script>
-const STORAGE_KEY = "todo-15062026-v1";
+const STORAGE_KEY = "todo-15062026-v2";
 
 const SECTIONS = [
   { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
       { label:"Comptes-rendus", tasks:[
         {id:"p1",text:"CR 121 Philippe Chekroun"},
-        {id:"p2",text:"CR Christophe"},
         {id:"p3",text:"CR Didier"},
         {id:"p4",text:"CR Aventure"},
-        {id:"p5",text:"CR 121 Luc Nadier"},
         {id:"p6",text:"CR 121 Devarchi"},
         {id:"p7",text:"CR 121 Pierre-Jean Malgouyres"},
-        {id:"p8",text:"CR 121 EBC",priority:true},
         {id:"p13",text:"CR 121 Charles Ruelle"},
         {id:"p15",text:"CR Stéphane O.",isNew:true},
         {id:"p16",text:"CR Julien",isNew:true},
@@ -115,10 +109,7 @@ const SECTIONS = [
         {id:"p22",text:"CR 121 Michael Dufour",isNew:true},
       ]},
       { label:"Livrables", tasks:[
-        {id:"p9",text:"MER Europrod × Aquarelia",priority:true},
         {id:"p10",text:"Relecture rapport Studiava"},
-        {id:"p11",text:"Facteur de réussite d'un hub",priority:true},
-        {id:"p12",text:"Envoi PPT séminaire Novelis",priority:true},
         {id:"p14",text:"Synthèse séminaire Novelis"},
       ]},
     ]
@@ -128,55 +119,39 @@ const SECTIONS = [
       { label:null, tasks:[
         {id:"c1",text:"Prévisionnel trésorerie FLM",priority:true},
         {id:"c2",text:"Maison Champeix → rapport"},
-        {id:"c3",text:"Tableau de bord suivi Plan Perf Commerce",priority:true},
         {id:"c4",text:"Plan stratégique 2026-2027 (advisor, board member, apports…)"},
       ]},
     ]
   },
   { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
     subsections:[
-      { label:"Relances formation neuro", tasks:[
-        {id:"co1",text:"JB Falque, Derai, Léa, Emmanuel — (négatif : Anton, Vincent)",priority:true},
-      ]},
-      { label:"Relances COS", tasks:[
-        {id:"co2",text:"Émilie Sabourin (LV), Ariane Tromiroff (SBM), Audrey Labèque (Satelia), Capucine Van Hyft (ex-HSBC), Charles Denechere (OVH), Charles Henry (Amaxeria), Ariane Lengaigne (Akacia), Gisela Sanchez (Finance Innovation)",priority:true},
-      ]},
       { label:"RV Qualif — à recaler", tasks:[
-        {id:"co3",text:"Guignard"},{id:"co4",text:"Uzzo"},
-        {id:"co6",text:"Couret Ginoux"},{id:"co7",text:"Bourrayne"},
-        {id:"co8",text:"Montasser"},{id:"co9",text:"Vassalucci"},
+        {id:"co6",text:"Couret Ginoux"},
+        {id:"co7",text:"Bourrayne"},
+        {id:"co8",text:"Montasser"},
+        {id:"co9",text:"Vassalucci"},
       ]},
       { label:"RV — Objectifs qualité", tasks:[
-        {id:"co10",text:"Charles Ruelle → Caler prochain RDV + éveiller intérêt coaching",priority:true},
         {id:"co11",text:"Florian Courte Ginoux"},
       ]},
       { label:"Propositions à envoyer", tasks:[
-        {id:"co12",text:"EBC → Adrien Laffon",priority:true},
         {id:"co37",text:"Charles Ruelle"},
-        {id:"co13",text:"Luc Nadier / Safee"},
         {id:"co14",text:"Adil Cherkaoui"},
         {id:"co15",text:"Pierre-Jean Malgouyres / Archetype"},
       ]},
       { label:"Propositions à relancer", tasks:[
-        {id:"co16",text:"Blancrème / C. Delorme",priority:true},
         {id:"co17",text:"Ocyos / Albien Préhu"},
       ]},
       { label:"Relance prise de contact", tasks:[
-        {id:"co18",text:"MyTMA / Marc de Rivoyre"},
-        {id:"co19",text:"JB Avierinos / Invested"},
         {id:"co20",text:"Florent Pitoun / Xperience",priority:true},
-        {id:"co21",text:"Ventio"},{id:"co22",text:"Stanislas Chertock"},
-        {id:"co23",text:"Melvin Beaury"},
-        {id:"co24",text:"Julien Parandero / Heaume Group"},
-      ]},
-      { label:"Recommandations réseau", tasks:[
-        {id:"co25",text:"Grisbi (via Florent)"},{id:"co26",text:"Wassim Benouis"},
-        {id:"co27",text:"Samuel St-Laurent"},{id:"co28",text:"Marc Hammani"},
+        {id:"co21",text:"Ventio"},
+        {id:"co22",text:"Stanislas Chertock"},
+        {id:"co25",text:"Grisbi (via Florent)"},
+        {id:"co26",text:"Wassim Benouis"},
+        {id:"co28",text:"Marc Hammani"},
       ]},
       { label:"Recommandations en RV", tasks:[
-        {id:"co29",text:"French Prop Tech"},
         {id:"co30",text:"Christophe Gellé",priority:true},
-        {id:"co31",text:"Dîner Parnasse → min. 2 contacts pipe + 1 RDV",priority:true},
       ]},
       { label:"Soirées & Cross Partners", tasks:[
         {id:"co32",text:"Soirée One Avocat (18/06) : demander cibles à Robin"},
@@ -191,9 +166,6 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"o1",text:"Plan économie"},
-        {id:"o2",text:"Caler RV Stéphane Oria",priority:true},
-        {id:"o3",text:"Caler RV Gilles Aubagnac",priority:true},
-        {id:"o4",text:"Recaler visio C. Delorme",priority:true},
       ]},
     ]
   },
@@ -202,11 +174,6 @@ const SECTIONS = [
       { label:null, tasks:[
         {id:"r1",text:"Oria — 3×4 500€ (mars→mai) + validation nouveau format",priority:true,montant:"13 500 €"},
         {id:"r2",text:"Conteco / SIG — 6×1 500€ (déc→mai)",montant:"9 000 €"},
-        {id:"r3",text:"Champeix — 3×1 500€",priority:true,montant:"4 500 €"},
-        {id:"r4",text:"Visconti — 5 600€ + 2 600€ + 3 500€",priority:true,montant:"11 700 €"},
-        {id:"r5",text:"Quad — 3 500€ + 3 500€ (fév, avr, mai)",montant:"7 000 €"},
-        {id:"r6",text:"Ophtabox — 3×2 000€ + 3 000€",priority:true,montant:"9 000 €"},
-        {id:"r7",text:"Lycaon — 3×2 500€ (mars→mai)",montant:"7 500 €"},
         {id:"r8",text:"Carbon — 2×3 000€ (juil, août)",priority:true,montant:"6 000 €"},
         {id:"r9",text:"Puissance Cap",priority:true,montant:"10 000 €"},
       ]},
@@ -219,7 +186,6 @@ const SECTIONS = [
         {id:"ct2",text:"Call Maxime Lemaire"},
         {id:"ct3",text:"Call Georges Besson / Sète"},
         {id:"ct4",text:"RV Fany Rui",priority:true},
-        {id:"ct5",text:"Visio ou RV Marc",priority:true},
       ]},
     ]
   },
@@ -265,12 +231,11 @@ function scheduleSave() {
   setSaveMsg("…","wait");
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); setSaveMsg("✓ Sauvegardé","ok"); }
-    catch { setSaveMsg("⚠ Erreur","err"); }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); setSaveMsg("✓","ok"); }
+    catch { setSaveMsg("⚠","err"); }
   }, 600);
 }
 function setSaveMsg(txt,type) { const el=document.getElementById("save-msg"); if(el){el.textContent=txt;el.className="save-status save-"+(type||"ok");} }
-
 function toggleActive(id) { state.ts[id].active=!state.ts[id].active; scheduleSave(); updateTask(id); updateProgress(); updateSecCount(); }
 function toggleDone(id) { state.ts[id].done=!state.ts[id].done; scheduleSave(); updateTask(id); updateProgress(); updateSecCount(); }
 function deleteTask(id) {
@@ -293,7 +258,17 @@ function toggleCol(id) {
   if(hdr) hdr.classList.toggle("collapsed",state.col[id]);
   if(chev) chev.classList.toggle("rotated",state.col[id]);
 }
-
+function exportState() {
+  const data = Object.entries(state.ts)
+    .filter(([id,s]) => s.done || s.deleted)
+    .map(([id,s]) => ({id, done:s.done, deleted:s.deleted}));
+  const code = "EXPORT:" + btoa(JSON.stringify(data));
+  navigator.clipboard.writeText(code).then(() => {
+    const msg = document.getElementById("export-msg");
+    msg.style.display = "block";
+    setTimeout(() => { msg.style.display = "none"; }, 4000);
+  });
+}
 function updateTask(id) {
   const s=state.ts[id];
   const row=document.getElementById("task-"+id); if(!row) return;
@@ -338,7 +313,6 @@ function starSVG(filled) {
   const fill=filled?"#D4900A":"none", stroke=filled?"#D4900A":"#C8C5BF";
   return `<svg width="16" height="16" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 }
-
 function render() {
   const app=document.getElementById("app"); app.innerHTML="";
   SECTIONS.forEach(sec=>{
@@ -351,7 +325,7 @@ function render() {
     const hdr=document.createElement("div");
     hdr.className="sec-header"+(isCol?" collapsed":""); hdr.id="sec-hdr-"+sec.id;
     hdr.onclick=()=>toggleCol(sec.id);
-    hdr.innerHTML=`<div class="sec-dot" style="background:${sec.dot}"></div><span class="sec-title" style="color:${sec.dot}">${sec.label}</span><span class="sec-count" id="sec-count-${sec.id}">${nDone}/${allT.length}</span><span class="sec-active-badge" id="sec-badge-${sec.id}" style="background:${sec.bg};color:${sec.dot};display:${nAct>0?"":"none"}">${nAct>0?nAct+" actives":""}</span><span class="sec-chevron${isCol?" rotated":""}" id="sec-chev-${sec.id}">▾</span>`;
+    hdr.innerHTML=`<div class="sec-dot" style="background:${sec.dot}"></div><span class="sec-title" style="color:${sec.dot}">${sec.label}</span><span class="sec-count" id="sec-count-${sec.id}">${nDone}/${allT.length}</span><span class="sec-active-badge" id="sec-badge-${sec.id}" style="background:${sec.bg};color:${sec.dot};display:${nAct>0?"":"none"}">${nAct>0?nAct+" actives":""}</span><span class="sec-chevron${isCol?" rotated":""}" id="sec-chev-${sec.id}">&#9662;</span>`;
     secEl.appendChild(hdr);
     const body=document.createElement("div"); body.id="sec-body-"+sec.id; body.style.display=isCol?"none":"block";
     sec.subsections.forEach((sub,si)=>{
@@ -369,12 +343,12 @@ function render() {
         const txt=document.createElement("span"); txt.className="task-text"+(s.done?" done":""); txt.textContent=task.text; bodyDiv.appendChild(txt);
         if(task.priority||task.montant||task.isNew){
           const badges=document.createElement("div"); badges.className="badges";
-          if(task.priority){const b=document.createElement("span");b.className="badge badge-prio";b.textContent="⚡ Prioritaire";badges.appendChild(b);}
+          if(task.priority){const b=document.createElement("span");b.className="badge badge-prio";b.textContent="&#9889; Prioritaire";badges.appendChild(b);}
           if(task.montant){const b=document.createElement("span");b.className="badge badge-amt";b.textContent=task.montant;badges.appendChild(b);}
-          if(task.isNew){const b=document.createElement("span");b.className="badge badge-new";b.textContent="✦ Nouveau";badges.appendChild(b);}
+          if(task.isNew){const b=document.createElement("span");b.className="badge badge-new";b.textContent="&#10022; Nouveau";badges.appendChild(b);}
           bodyDiv.appendChild(badges);
         }
-        const del=document.createElement("button"); del.className="del-btn"; del.textContent="✕"; del.onclick=(e)=>{e.stopPropagation();deleteTask(task.id);};
+        const del=document.createElement("button"); del.className="del-btn"; del.textContent="&#10005;"; del.onclick=(e)=>{e.stopPropagation();deleteTask(task.id);};
         row.appendChild(actWrap); row.appendChild(cb); row.appendChild(bodyDiv); row.appendChild(del);
         body.appendChild(row);
       });
@@ -383,19 +357,6 @@ function render() {
   });
   updateProgress();
 }
-
-function exportState() {
-  const done = Object.entries(state.ts)
-    .filter(([id, s]) => s.done || s.deleted)
-    .map(([id, s]) => ({ id, done: s.done, deleted: s.deleted }));
-  const code = "EXPORT:" + btoa(JSON.stringify(done));
-  navigator.clipboard.writeText(code).then(() => {
-    const msg = document.getElementById("export-msg");
-    msg.style.display = "block";
-    setTimeout(() => { msg.style.display = "none"; }, 4000);
-  });
-}
-
 document.getElementById("dateEl").textContent=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).toUpperCase();
 load(); render();
 </script>
