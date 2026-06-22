@@ -81,40 +81,29 @@
 </div>
 
 <div id="app"></div>
-
 <button class="export-btn" onclick="exportState()">&#128228; Exporter mon état (mise à jour hebdo)</button>
 <div id="export-msg" style="font-size:10px;color:#5A7A2C;text-align:center;margin-bottom:8px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
 <div class="footer" id="footer"></div>
 
 <script>
-const STORAGE_KEY = "todo-15062026-v2";
+const STORAGE_KEY = "todo-22062026-v1";
 
 const SECTIONS = [
   { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
       { label:"Comptes-rendus", tasks:[
         {id:"p1",text:"CR 121 Philippe Chekroun"},
-        {id:"p3",text:"CR Didier"},
-        {id:"p4",text:"CR Aventure"},
-        {id:"p6",text:"CR 121 Devarchi"},
         {id:"p7",text:"CR 121 Pierre-Jean Malgouyres"},
-        {id:"p13",text:"CR 121 Charles Ruelle"},
-        {id:"p15",text:"CR Stéphane O.",isNew:true},
-        {id:"p16",text:"CR Julien",isNew:true},
-        {id:"p17",text:"CR Stéphane D.",isNew:true},
-        {id:"p18",text:"CR Eytan",isNew:true},
-        {id:"p19",text:"CR Gilles",isNew:true},
-        {id:"p20",text:"CR Maely",isNew:true},
-        {id:"p21",text:"CR 121 Damien Pacouil",isNew:true},
-        {id:"p22",text:"CR 121 Michael Dufour",isNew:true},
+        {id:"p27",text:"CR Misha",isNew:true},
+        {id:"p28",text:"CR Adrien",isNew:true},
+        {id:"p29",text:"CR Didier",isNew:true},
+        {id:"p30",text:"CR Ophtabox",isNew:true},
       ]},
       { label:"Livrables", tasks:[
         {id:"p10",text:"Relecture rapport Studiava"},
         {id:"p14",text:"Synthèse séminaire Novelis"},
-        {id:"p23",text:"Proposer thématiques dîner Visconti × In Extenso",isNew:true},
-        {id:"p24",text:"Préparer trame webinaire French Prop Tech",isNew:true},
-        {id:"p25",text:"Comparatif TMA / TTI Success pour Alexandre Crisci",isNew:true},
-        {id:"p26",text:"Offre : contrat MBO+",isNew:true},
+        {id:"p25",text:"Comparatif TMA / TTI Success — Alexandre Crisci"},
+        {id:"p26",text:"Offre : contrat MBO+"},
       ]},
     ]
   },
@@ -122,7 +111,6 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"c1",text:"Prévisionnel trésorerie FLM",priority:true},
-        {id:"c2",text:"Maison Champeix → rapport"},
         {id:"c4",text:"Plan stratégique 2026-2027 (advisor, board member, apports…)"},
       ]},
     ]
@@ -130,70 +118,39 @@ const SECTIONS = [
   { id:"calls", label:"Calls", dot:"#0E7C7B", bg:"#E5F5F4",
     subsections:[
       { label:null, tasks:[
-        {id:"call1",text:"Call Franck Verchelle",isNew:true},
-        {id:"call2",text:"Call Lou-Anne Komac (CIMP)",isNew:true},
-        {id:"call3",text:"Call Nicolas Morel",isNew:true},
+        {id:"call1",text:"Call Franck Verchelle"},
+        {id:"call3",text:"Call Nicolas Morel"},
+        {id:"call4",text:"Call presta filtres anti UV",isNew:true},
       ]},
     ]
   },
   { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
     subsections:[
-      { label:"RV Qualif — à recaler (4)", tasks:[
-        {id:"co6",text:"Couret Ginoux"},
-        {id:"co7",text:"Bourrayne"},
-        {id:"co8",text:"Montasser"},
-        {id:"co9",text:"Vassalucci"},
-      ]},
-      { label:"RV (2)", tasks:[
-        {id:"co38",text:"Damien Pacouil (Prelys)",isNew:true},
-        {id:"co39",text:"Michael Dufour (Alios) — RV Qualif",isNew:true},
-      ]},
-      { label:"Propositions à envoyer (4)", tasks:[
-        {id:"co40",text:"Damien Pacouil",isNew:true},
+      { label:"Propositions à envoyer", tasks:[
         {id:"co37",text:"Charles Ruelle"},
-        {id:"co14",text:"Adil Cherkaoui"},
         {id:"co15",text:"Pierre-Jean Malgouyres / Archetype"},
       ]},
       { label:"Offres & Contrats", tasks:[
-        {id:"co51",text:"Envoi contrat apporteur Pure Partners",isNew:true},
-        {id:"co52",text:"Finaliser CV administrateur",isNew:true},
+        {id:"co52",text:"Finaliser CV administrateur"},
       ]},
-      { label:"Propositions à relancer (2)", tasks:[
-        {id:"co41",text:"MBO+ / Luc Grimaud",isNew:true},
-        {id:"co42",text:"Safee / Luc Nadier",isNew:true},
-      ]},
-      { label:"Relance contacts (5)", tasks:[
+      { label:"Relance contacts", tasks:[
         {id:"co20",text:"Florent Pitoun / Xperience",priority:true},
         {id:"co21",text:"Ventio"},
         {id:"co22",text:"Stanislas Chertock"},
-        {id:"co43",text:"Olivier Le Blainvaux (Techno Founders)",isNew:true},
-        {id:"co44",text:"Stéphane Le Normand (Corinthe Ingé)",isNew:true},
-        {id:"co53",text:"Benjamin Salah",isNew:true},
-        {id:"co54",text:"Laurent Petit",isNew:true},
-        {id:"co55",text:"Proposition à transmettre à Julien Parandero",isNew:true},
+        {id:"co43",text:"Olivier Le Blainvaux (Techno Founders)"},
+        {id:"co55",text:"Proposition à transmettre à Julien Parandero"},
       ]},
-      { label:"Recos à demander dans mon réseau (3)", tasks:[
-        {id:"co25",text:"Grisbi (via Florent)"},
+      { label:"Recommandations réseau", tasks:[
         {id:"co26",text:"Wassim Benouis"},
-        {id:"co45",text:"Charles Duclert",isNew:true},
+        {id:"co45",text:"Charles Duclert"},
       ]},
-      { label:"Recos à demander en RV cette semaine (4)", tasks:[
-        {id:"co46",text:"Stéphane Oria",isNew:true},
-        {id:"co47",text:"Julien",isNew:true},
-        {id:"co48",text:"Stéphane D. (Pitoun)",isNew:true},
-        {id:"co49",text:"Dîner One Avocats",isNew:true},
+      { label:"RV — Objectifs qualité", tasks:[
+        {id:"co11",text:"Florian Courte Ginoux"},
+        {id:"co28",text:"Marc Hammani"},
+        {id:"co30",text:"Christophe Gellé",priority:true},
       ]},
       { label:"Suivi LinkedIn", tasks:[
-        {id:"co50",text:"Suivi LinkedIn (semaine 24 et précédentes)",isNew:true},
-      ]},
-      { label:"Actions Dîner & Soirées", tasks:[
-        {id:"co32",text:"Soirée One Avocat (18/06) : demander cibles à Robin"},
-        {id:"co33",text:"Award IMT (24/06) : demander liste invités"},
-      ]},
-      { label:"Cross Partners", tasks:[
-        {id:"co34",text:"Fred R. : écosystèmes atypiques — spectacles (Zu Accélérateur) + gastronomie (Marc Hammani)"},
-        {id:"co35",text:"Nicolas C. : 1 nouveau Fonds"},
-        {id:"co36",text:"Pierre F. : retour fiche Couderc Dinh — entreprise familiale"},
+        {id:"co50",text:"Suivi LinkedIn (semaines précédentes)"},
       ]},
     ]
   },
@@ -201,7 +158,7 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"o1",text:"Plan économie"},
-        {id:"o5",text:"Déclaration trimestrielle CA Visconti",isNew:true},
+        {id:"o5",text:"Déclaration trimestrielle CA Visconti"},
       ]},
     ]
   },
@@ -261,17 +218,15 @@ function load() {
     if (saved.col) state.col = saved.col;
   } catch {}
 }
-
 let saveTimer = null;
 function scheduleSave() {
-  setSaveMsg("…","wait");
-  clearTimeout(saveTimer);
+  setSaveMsg("…","wait"); clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); setSaveMsg("✓","ok"); }
-    catch { setSaveMsg("⚠","err"); }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); setSaveMsg("&#10003;","ok"); }
+    catch { setSaveMsg("&#9888;","err"); }
   }, 600);
 }
-function setSaveMsg(txt,type) { const el=document.getElementById("save-msg"); if(el){el.textContent=txt;el.className="save-status save-"+(type||"ok");} }
+function setSaveMsg(txt,type) { const el=document.getElementById("save-msg"); if(el){el.innerHTML=txt;el.className="save-status save-"+(type||"ok");} }
 function toggleActive(id) { state.ts[id].active=!state.ts[id].active; scheduleSave(); updateTask(id); updateProgress(); updateSecCount(); }
 function toggleDone(id) { state.ts[id].done=!state.ts[id].done; scheduleSave(); updateTask(id); updateProgress(); updateSecCount(); }
 function deleteTask(id) {
@@ -295,34 +250,24 @@ function toggleCol(id) {
   if(chev) chev.classList.toggle("rotated",state.col[id]);
 }
 function exportState() {
-  const data = Object.entries(state.ts)
-    .filter(([id,s]) => s.done || s.deleted)
-    .map(([id,s]) => ({id, done:s.done, deleted:s.deleted}));
-  const code = "EXPORT:" + btoa(JSON.stringify(data));
-  navigator.clipboard.writeText(code).then(() => {
-    const msg = document.getElementById("export-msg");
-    msg.style.display = "block";
-    setTimeout(() => { msg.style.display = "none"; }, 4000);
+  const data=Object.entries(state.ts).filter(([id,s])=>s.done||s.deleted).map(([id,s])=>({id,done:s.done,deleted:s.deleted}));
+  const code="EXPORT:"+btoa(JSON.stringify(data));
+  navigator.clipboard.writeText(code).then(()=>{
+    const msg=document.getElementById("export-msg"); msg.style.display="block";
+    setTimeout(()=>{msg.style.display="none";},4000);
   });
 }
 function updateTask(id) {
-  const s=state.ts[id];
-  const row=document.getElementById("task-"+id); if(!row) return;
+  const s=state.ts[id]; const row=document.getElementById("task-"+id); if(!row) return;
   row.classList.toggle("dimmed",!s.active&&!s.done);
   const txt=row.querySelector(".task-text"); if(txt) txt.classList.toggle("done",s.done);
   const cb=row.querySelector(".done-check"); if(cb) cb.checked=s.done;
   updateActivation(id);
 }
 function updateActivation(id) {
-  const s=state.ts[id];
-  const wrap=document.getElementById("act-"+id); if(!wrap) return;
-  if(state.style==="star") {
-    wrap.innerHTML=starSVG(s.active); wrap.className="star-btn"; wrap.onclick=()=>toggleActive(id);
-  } else {
-    wrap.className="toggle-wrap"; wrap.style.background=s.active?"#2C5F8A":"#DDDAD4";
-    wrap.innerHTML=`<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;
-    wrap.onclick=()=>toggleActive(id);
-  }
+  const s=state.ts[id]; const wrap=document.getElementById("act-"+id); if(!wrap) return;
+  if(state.style==="star"){wrap.innerHTML=starSVG(s.active);wrap.className="star-btn";wrap.onclick=()=>toggleActive(id);}
+  else{wrap.className="toggle-wrap";wrap.style.background=s.active?"#2C5F8A":"#DDDAD4";wrap.innerHTML=`<span class="toggle-thumb" style="left:${s.active?15:2}px"></span>`;wrap.onclick=()=>toggleActive(id);}
 }
 function updateProgress() {
   const active=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted&&state.ts[t.id]?.active);
@@ -332,7 +277,7 @@ function updateProgress() {
   document.getElementById("prog-pct").textContent=pct+"%";
   document.getElementById("prog-label").textContent=active.length===0?"Activez des tâches pour démarrer":`${done.length} / ${active.length} tâches du jour`;
   const total=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
-  document.getElementById("footer").textContent=`${total} tâches · Semaine du 15 juin 2026`;
+  document.getElementById("footer").textContent=`${total} tâches · Semaine du 22 juin 2026`;
 }
 function updateSecCount() {
   SECTIONS.forEach(sec=>{
@@ -346,7 +291,7 @@ function updateSecCount() {
   });
 }
 function starSVG(filled) {
-  const fill=filled?"#D4900A":"none", stroke=filled?"#D4900A":"#C8C5BF";
+  const fill=filled?"#D4900A":"none",stroke=filled?"#D4900A":"#C8C5BF";
   return `<svg width="16" height="16" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 }
 function render() {
@@ -359,8 +304,7 @@ function render() {
     const isCol=state.col[sec.id];
     const secEl=document.createElement("div"); secEl.className="section";
     const hdr=document.createElement("div");
-    hdr.className="sec-header"+(isCol?" collapsed":""); hdr.id="sec-hdr-"+sec.id;
-    hdr.onclick=()=>toggleCol(sec.id);
+    hdr.className="sec-header"+(isCol?" collapsed":""); hdr.id="sec-hdr-"+sec.id; hdr.onclick=()=>toggleCol(sec.id);
     hdr.innerHTML=`<div class="sec-dot" style="background:${sec.dot}"></div><span class="sec-title" style="color:${sec.dot}">${sec.label}</span><span class="sec-count" id="sec-count-${sec.id}">${nDone}/${allT.length}</span><span class="sec-active-badge" id="sec-badge-${sec.id}" style="background:${sec.bg};color:${sec.dot};display:${nAct>0?"":"none"}">${nAct>0?nAct+" actives":""}</span><span class="sec-chevron${isCol?" rotated":""}" id="sec-chev-${sec.id}">&#9662;</span>`;
     secEl.appendChild(hdr);
     const body=document.createElement("div"); body.id="sec-body-"+sec.id; body.style.display=isCol?"none":"block";
