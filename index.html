@@ -50,7 +50,7 @@
   .badge-prio { background: #FFF3ED; color: #C4622D; }
   .badge-amt { background: #F8E8E8; color: #8A2C2C; font-family: monospace; font-weight: 600; text-transform: none; }
   .badge-new { background: #E8F4F0; color: #1D6B4E; }
-  .del-btn { background: none; border: none; cursor: pointer; color: #C8C5BF; font-size: 14px; padding: 2px 4px; flex-shrink: 0; margin-top: 1px; border-radius: 4px; transition: color 0.15s, background 0.15s; }
+  .del-btn { background: none; border: none; cursor: pointer; color: #C8C5BF; font-size: 14px; padding: 2px 4px; flex-shrink: 0; margin-top: 1px; border-radius: 4px; }
   .del-btn:active { color: #C4622D; background: #FFF3ED; }
   .export-btn { background: #2C5F8A; color: #fff; border: none; border-radius: 8px; padding: 11px 20px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; margin: 16px 0 8px; }
   .export-btn:active { background: #1D4A6E; }
@@ -86,25 +86,24 @@
 <div class="footer" id="footer"></div>
 
 <script>
-const STORAGE_KEY = "todo-22062026-v1";
+const STORAGE_KEY = "todo-29062026-v1";
 
 const SECTIONS = [
   { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
       { label:"Comptes-rendus", tasks:[
-        {id:"p1",text:"CR 121 Philippe Chekroun"},
-        {id:"p7",text:"CR 121 Pierre-Jean Malgouyres"},
-        {id:"p27",text:"CR Misha",isNew:true},
-        {id:"p28",text:"CR Adrien",isNew:true},
         {id:"p29",text:"CR Didier",isNew:true},
-        {id:"p30",text:"CR Ophtabox",isNew:true},
+        {id:"p32",text:"CR Misha",isNew:true},
+        {id:"p33",text:"CR Valentin",isNew:true},
+        {id:"p34",text:"CR MBO+",isNew:true},
+        {id:"p35",text:"CR Christophe",isNew:true},
       ]},
       { label:"Livrables", tasks:[
         {id:"p10",text:"Relecture rapport Studiava"},
         {id:"p14",text:"Synthèse séminaire Novelis"},
         {id:"p25",text:"Comparatif TMA / TTI Success — Alexandre Crisci"},
-        {id:"p31",text:"Préparation Webinaire French Prop Tech",isNew:true},
-        {id:"p26",text:"Offre : contrat MBO+"},
+        {id:"p31",text:"Préparation Webinaire French Prop Tech"},
+        {id:"p36",text:"Prépa atelier Misha",isNew:true},
       ]},
     ]
   },
@@ -121,60 +120,51 @@ const SECTIONS = [
       { label:null, tasks:[
         {id:"call1",text:"Call Franck Verchelle"},
         {id:"call3",text:"Call Nicolas Morel"},
-        {id:"call4",text:"Call presta filtres anti UV",isNew:true},
-        {id:"call5",text:"Call Misha",isNew:true},
+        {id:"call6",text:"Call Damien Pacouil",isNew:true},
       ]},
     ]
   },
   { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
     subsections:[
-      { label:"RV Qualif — à recaler (4)", tasks:[
-        {id:"co60",text:"Mondial Fruits Secs / Eytan Melloul"},
-        {id:"co61",text:"JB Avierinos"},
-        {id:"co62",text:"Nicolas Secondi"},
-        {id:"co63",text:"Clément Bourayne"},
-      ]},
-      { label:"RV (2)", tasks:[
+      { label:"RV Qualif — à recaler", tasks:[
         {id:"co64",text:"Stéphane Uzzo"},
-        {id:"co65",text:"Coppelia Burgos"},
       ]},
-      { label:"Propositions à envoyer (2)", tasks:[
-        {id:"co66",text:"Julien Parandero"},
+      { label:"Propositions à envoyer", tasks:[
         {id:"co15",text:"Pierre-Jean Malgouyres / Archetype"},
       ]},
-      { label:"Propositions à relancer (2)", tasks:[
-        {id:"co67",text:"Christophe Delorme"},
+      { label:"Propositions à relancer", tasks:[
         {id:"co68",text:"Alexandre Crisci"},
       ]},
-      { label:"Relance contacts (7)", tasks:[
-        {id:"co69",text:"Denis Liotta"},
-        {id:"co70",text:"Matthieu Savatier"},
+      { label:"Offres & Contrats", tasks:[
+        {id:"co52",text:"Finaliser CV administrateur"},
+      ]},
+      { label:"Relance contacts", tasks:[
+        {id:"co21",text:"Ventio"},
         {id:"co71",text:"Jean-Valéry Desens"},
         {id:"co72",text:"Cécile Avezard"},
         {id:"co73",text:"Laurent Schmidt"},
-        {id:"co20",text:"Florent Pitoun / Xperience"},
-        {id:"co21",text:"Ventio"},
+        {id:"co43",text:"Olivier Le Blainvaux (Techno Founders)"},
+        {id:"co55",text:"Proposition à transmettre à Julien Parandero"},
       ]},
-      { label:"Recos réseau (3)", tasks:[
-        {id:"co26",text:"Wassim Benouis"},
+      { label:"Recommandations réseau", tasks:[
         {id:"co74",text:"Charles Duclert (caler déj)"},
         {id:"co75",text:"Pascal Cirasse"},
+        {id:"co45",text:"Charles Duclert"},
       ]},
-      { label:"Recos à demander en RV (5)", tasks:[
-        {id:"co76",text:"Coppelia Burgos"},
+      { label:"Recos à demander en RV", tasks:[
         {id:"co77",text:"Stéphane Uzzo"},
         {id:"co78",text:"Didier Champeix"},
-        {id:"co79",text:"Soirée Club 29"},
-        {id:"co80",text:"Soirée Immobilier"},
       ]},
       { label:"Actions Dîner", tasks:[
-        {id:"co81",text:"Lancement invitations Dîner In Extenso"},
         {id:"co82",text:"Vérifier dates dîner sept-déc"},
       ]},
       { label:"Cross Partners", tasks:[
         {id:"co83",text:"Fred R. : suivi Zu + relance Marc Hammani / Chefs"},
         {id:"co84",text:"Nicolas C. : 1 nouveau RV Fonds"},
         {id:"co85",text:"Pierre F. : finalisation CV administrateur"},
+      ]},
+      { label:"Suivi LinkedIn", tasks:[
+        {id:"co50",text:"Suivi LinkedIn (semaines précédentes)"},
       ]},
     ]
   },
@@ -183,24 +173,19 @@ const SECTIONS = [
       { label:null, tasks:[
         {id:"o1",text:"Plan économie"},
         {id:"o5",text:"Déclaration trimestrielle CA Visconti"},
-        {id:"o6",text:"Virement Conteco → CIMP",isNew:true},
-        {id:"o7",text:"Virement SCI Callas Vacon",isNew:true},
-        {id:"o8",text:"Appro compte ITP",isNew:true},
-        {id:"o9",text:"Virement Servcorp",isNew:true},
+        {id:"o10",text:"Billets train juillet (30/06, 01/07, 03/07, 09/07, 10/07, 15/07, 16/07, 28/07, 29/07)",isNew:true,priority:true},
       ]},
     ]
   },
   { id:"recouvrement", label:"Recouvrement", dot:"#8A2C2C", bg:"#F8E8E8",
     subsections:[
       { label:null, tasks:[
-        {id:"r1",text:"Oria — 3×4 500€ (mars→mai) + validation nouveau format",priority:true,montant:"13 500 €"},
-        {id:"r2",text:"Conteco / SIG — 6×1 500€ (déc→mai)",montant:"9 000 €"},
+        {id:"r1",text:"Oria — 3×4 500€ + validation nouveau format",priority:true,montant:"13 500 €"},
+        {id:"r2",text:"Conteco / SIG — 6×1 500€",montant:"9 000 €"},
         {id:"r8",text:"Carbon — 2×3 000€ (juil, août)",priority:true,montant:"6 000 €"},
         {id:"r9",text:"Puissance Cap",priority:true,montant:"10 000 €"},
-        {id:"r10",text:"Mail Fadwa — SIG / Conteco",isNew:true},
-        {id:"r11",text:"Lycaon (mars→mai)",isNew:true,montant:"7 500 €"},
-        {id:"r12",text:"Quad — point",isNew:true},
-        {id:"r13",text:"Visconti A",isNew:true,montant:"6 100 € HT"},
+        {id:"r10",text:"Mail Fadwa — SIG / Conteco"},
+        {id:"r12",text:"Quad — point"},
       ]},
     ]
   },
@@ -242,8 +227,7 @@ ALL_TASKS.forEach(t => { state.ts[t.id] = { active:false, done:false, deleted:fa
 
 function load() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
+    const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return;
     const saved = JSON.parse(raw);
     if (saved.ts) Object.keys(saved.ts).forEach(id => { if (state.ts[id]) state.ts[id] = { ...state.ts[id], ...saved.ts[id] }; });
     if (saved.style) state.style = saved.style;
@@ -309,7 +293,7 @@ function updateProgress() {
   document.getElementById("prog-pct").textContent=pct+"%";
   document.getElementById("prog-label").textContent=active.length===0?"Activez des tâches pour démarrer":`${done.length} / ${active.length} tâches du jour`;
   const total=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
-  document.getElementById("footer").textContent=`${total} tâches · Semaine du 22 juin 2026`;
+  document.getElementById("footer").textContent=`${total} tâches · Semaine du 29 juin 2026`;
 }
 function updateSecCount() {
   SECTIONS.forEach(sec=>{
