@@ -58,7 +58,6 @@
 </style>
 </head>
 <body>
-
 <div class="header">
   <div>
     <h1>To-Do</h1>
@@ -70,7 +69,6 @@
     <button class="sw-btn" id="btn-toggle" onclick="setStyle('toggle')">&#9898; Toggle</button>
   </div>
 </div>
-
 <div class="progress-card">
   <div class="progress-top">
     <span class="progress-label" id="prog-label">Activez des tâches pour démarrer</span>
@@ -79,31 +77,24 @@
   </div>
   <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
 </div>
-
 <div id="app"></div>
 <button class="export-btn" onclick="exportState()">&#128228; Exporter mon état (mise à jour hebdo)</button>
 <div id="export-msg" style="font-size:10px;color:#5A7A2C;text-align:center;margin-bottom:8px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
 <div class="footer" id="footer"></div>
-
 <script>
-const STORAGE_KEY = "todo-29062026-v1";
-
+const STORAGE_KEY = "todo-07072026-v1";
 const SECTIONS = [
   { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
       { label:"Comptes-rendus", tasks:[
-        {id:"p29",text:"CR Didier",isNew:true},
-        {id:"p32",text:"CR Misha",isNew:true},
-        {id:"p33",text:"CR Valentin",isNew:true},
-        {id:"p34",text:"CR MBO+",isNew:true},
-        {id:"p35",text:"CR Christophe",isNew:true},
+        {id:"p34",text:"CR MBO+"},
+        {id:"p37",text:"CR Florent Pitoun",isNew:true},
+        {id:"p38",text:"CR Isabelle Munoz",isNew:true},
+        {id:"p39",text:"CR Kate Masson",isNew:true},
       ]},
       { label:"Livrables", tasks:[
-        {id:"p10",text:"Relecture rapport Studiava"},
         {id:"p14",text:"Synthèse séminaire Novelis"},
         {id:"p25",text:"Comparatif TMA / TTI Success — Alexandre Crisci"},
-        {id:"p31",text:"Préparation Webinaire French Prop Tech"},
-        {id:"p36",text:"Prépa atelier Misha",isNew:true},
       ]},
     ]
   },
@@ -119,72 +110,46 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"call1",text:"Call Franck Verchelle"},
-        {id:"call3",text:"Call Nicolas Morel"},
-        {id:"call6",text:"Call Damien Pacouil",isNew:true},
-        {id:"call7",text:"Call Michael Bentolila",isNew:true},
-        {id:"call8",text:"Call Cyril Picard",isNew:true},
-        {id:"call9",text:"Call Xavier Matharan",isNew:true},
-        {id:"call10",text:"Call Sandro",isNew:true},
-        {id:"call11",text:"Call Jausserand Audouard",isNew:true},
+        {id:"call7",text:"Call Michael Bentolila"},
       ]},
     ]
   },
   { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
     subsections:[
-      { label:"RV Qualif — à recaler (4)", tasks:[
-        {id:"co90",text:"Montasser",isNew:true},
-        {id:"co91",text:"Vassalucci",isNew:true},
-        {id:"co92",text:"Dufour",isNew:true},
-        {id:"co93",text:"Petit",isNew:true},
+      { label:"RV Qualif — à recaler", tasks:[
+        {id:"co90",text:"Montasser"},
+        {id:"co91",text:"Vassalucci"},
+        {id:"co92",text:"Dufour"},
+        {id:"co93",text:"Petit"},
       ]},
-      { label:"RV (3)", tasks:[
-        {id:"co94",text:"Florent Pitoun",isNew:true},
-        {id:"co95",text:"Isabelle Munoz",isNew:true},
-        {id:"co96",text:"Kate Masson",isNew:true},
-      ]},
-      { label:"Propositions à envoyer (3)", tasks:[
-        {id:"co15",text:"Pierre-Jean Malgouyres / Archetype"},
-        {id:"co106",text:"XP Immo (Florent Pitoun)",isNew:true},
-        {id:"co107",text:"BeoHealthcare (Kate Masson)",isNew:true},
-      ]},
-      { label:"Propositions à relancer (1)", tasks:[
-        {id:"co68",text:"Alexandre Crisci"},
+      { label:"Propositions à envoyer", tasks:[
+        {id:"co106",text:"XP Immo (Florent Pitoun)"},
+        {id:"co107",text:"BeoHealthcare (Kate Masson)"},
+        {id:"co68b",text:"Alexandre Crisci (relance)"},
       ]},
       { label:"Offres & Contrats", tasks:[
         {id:"co52",text:"Finaliser CV administrateur"},
       ]},
-      { label:"Relance contacts (6)", tasks:[
-        {id:"co97",text:"Nicolas Dohm",isNew:true},
-        {id:"co98",text:"Marc de Rivoyre",isNew:true},
+      { label:"Relance contacts", tasks:[
+        {id:"co21",text:"Ventio"},
         {id:"co71",text:"Jean-Valéry Desens"},
-        {id:"co70",text:"Matthieu Savatier"},
-        {id:"co72",text:"Cécile Avezard"},
-        {id:"co99",text:"Benjamin Salah",isNew:true},
-        {id:"co105",text:"Lola Bonnin (Maltivor)",isNew:true},
+        {id:"co73",text:"Laurent Schmidt"},
+        {id:"co43",text:"Olivier Le Blainvaux (Techno Founders)"},
+        {id:"co55",text:"Proposition Julien Parandero"},
+        {id:"co99",text:"Benjamin Salah"},
       ]},
-      { label:"Recos réseau (2)", tasks:[
-        {id:"co100",text:"Loïc Hervé",isNew:true},
+      { label:"Recommandations réseau", tasks:[
         {id:"co74",text:"Charles Duclert (caler déj)"},
-      ]},
-      { label:"Recos à demander en RV (3)", tasks:[
-        {id:"co78",text:"Didier Champeix"},
-        {id:"co101",text:"Christophe G.",isNew:true},
-        {id:"co102",text:"Valentin",isNew:true},
-      ]},
-      { label:"Nouveaux contacts pipe", tasks:[
-        {id:"co103",text:"Objectif : 3 nouveaux contacts",isNew:true},
+        {id:"co75",text:"Pascal Cirasse"},
       ]},
       { label:"Actions Dîner", tasks:[
         {id:"co82",text:"Vérifier dates dîner sept-déc"},
-        {id:"co104",text:"Suivi Dîner In Extenso",isNew:true},
+        {id:"co104b",text:"Suivi Dîner In Extenso"},
       ]},
       { label:"Cross Partners", tasks:[
         {id:"co83",text:"Fred R. : suivi Zu + relance Marc Hammani / Chefs"},
         {id:"co84",text:"Nicolas C. : 1 nouveau RV Fonds"},
         {id:"co85",text:"Pierre F. : finalisation CV administrateur"},
-      ]},
-      { label:"Suivi LinkedIn", tasks:[
-        {id:"co50",text:"Suivi LinkedIn (semaines précédentes)"},
       ]},
     ]
   },
@@ -193,36 +158,23 @@ const SECTIONS = [
       { label:null, tasks:[
         {id:"o1",text:"Plan économie"},
         {id:"o5",text:"Déclaration trimestrielle CA Visconti"},
-        {id:"o10",text:"Billets train — semaine du 30/06 (30/06, 01/07, 03/07)",priority:true},
-        {id:"o11",text:"Billets train — semaine du 07/07 (09/07, 10/07)",isNew:true,priority:true},
-        {id:"o12",text:"Billets train — semaine du 14/07 (15/07, 16/07)",isNew:true,priority:true},
-        {id:"o13",text:"Billets train — semaine du 28/07 (28/07, 29/07)",isNew:true,priority:true},
+        {id:"o13",text:"Billets train — semaine du 28/07 (28/07, 29/07)",priority:true},
       ]},
     ]
   },
   { id:"recouvrement", label:"Recouvrement", dot:"#8A2C2C", bg:"#F8E8E8",
     subsections:[
       { label:null, tasks:[
-        {id:"r1",text:"Oria — 3×4 500€ + validation nouveau format",priority:true,montant:"13 500 €"},
-        {id:"r2",text:"Conteco / SIG — 6×1 500€",montant:"9 000 €"},
         {id:"r8",text:"Carbon — 2×3 000€ (juil, août)",priority:true,montant:"6 000 €"},
         {id:"r9",text:"Puissance Cap",priority:true,montant:"10 000 €"},
-        {id:"r10",text:"Mail Fadwa — SIG / Conteco"},
-        {id:"r12",text:"Quad — point"},
-        {id:"r14",text:"Lycaon (mars→juin)",isNew:true,montant:"10 000 €"},
-        {id:"r15",text:"Ophtabox (avr→juin + janv)",isNew:true,montant:"9 000 €"},
-        {id:"r16",text:"Quad (fév, mai, juin)",isNew:true,montant:"10 500 €"},
-        {id:"r17",text:"Studiava",isNew:true,montant:"6 500 € HT"},
-        {id:"r18",text:"A&A (juin)",isNew:true},
+        {id:"r15",text:"Ophtabox (avr→juin + janv)",priority:true,montant:"9 000 €"},
+        {id:"r17",text:"Studiava",montant:"6 500 € HT"},
       ]},
     ]
   },
   { id:"conteco", label:"Conteco", dot:"#5A7A2C", bg:"#EEF4E8",
     subsections:[
       { label:null, tasks:[
-        {id:"ct1",text:"Mail Milad / Fadwa"},
-        {id:"ct2",text:"Call Maxime Lemaire"},
-        {id:"ct3",text:"Call Georges Besson / Sète"},
         {id:"ct4",text:"RV Fany Rui",priority:true},
       ]},
     ]
@@ -248,11 +200,9 @@ const SECTIONS = [
     ]
   },
 ];
-
 const ALL_TASKS = SECTIONS.flatMap(s => s.subsections.flatMap(sub => sub.tasks));
 let state = { ts:{}, style:"star", col:{} };
 ALL_TASKS.forEach(t => { state.ts[t.id] = { active:false, done:false, deleted:false }; });
-
 function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return;
@@ -321,7 +271,7 @@ function updateProgress() {
   document.getElementById("prog-pct").textContent=pct+"%";
   document.getElementById("prog-label").textContent=active.length===0?"Activez des tâches pour démarrer":`${done.length} / ${active.length} tâches du jour`;
   const total=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
-  document.getElementById("footer").textContent=`${total} tâches · Semaine du 29 juin 2026`;
+  document.getElementById("footer").textContent=`${total} tâches · Semaine 28 — du 07 juillet 2026`;
 }
 function updateSecCount() {
   SECTIONS.forEach(sec=>{
