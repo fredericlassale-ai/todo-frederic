@@ -59,10 +59,7 @@
 </head>
 <body>
 <div class="header">
-  <div>
-    <h1>To-Do</h1>
-    <div class="date" id="dateEl"></div>
-  </div>
+  <div><h1>To-Do</h1><div class="date" id="dateEl"></div></div>
   <div class="switcher">
     <span>Activation</span>
     <button class="sw-btn active-star" id="btn-star" onclick="setStyle('star')">&#11088; Étoile</button>
@@ -82,28 +79,25 @@
 <div id="export-msg" style="font-size:10px;color:#5A7A2C;text-align:center;margin-bottom:8px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
 <div class="footer" id="footer"></div>
 <script>
-const STORAGE_KEY = "todo-07072026-v1";
+const STORAGE_KEY = "todo-14072026-v1";
 const SECTIONS = [
   { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
       { label:"Comptes-rendus", tasks:[
-        {id:"p34",text:"CR MBO+"},
-        {id:"p37",text:"CR Florent Pitoun",isNew:true},
-        {id:"p38",text:"CR Isabelle Munoz",isNew:true},
-        {id:"p39",text:"CR Kate Masson",isNew:true},
+        {id:"p39",text:"CR Kate Masson"},
+        {id:"p42",text:"CR Dominique Guignard",isNew:true},
+        {id:"p43",text:"CR Nicolas Dohm",isNew:true},
       ]},
       { label:"Livrables", tasks:[
         {id:"p14",text:"Synthèse séminaire Novelis"},
         {id:"p25",text:"Comparatif TMA / TTI Success — Alexandre Crisci"},
-        {id:"p40",text:"Relancer Gilles Aubagnac / Aquarelia",isNew:true},
-        {id:"p41",text:"Envoi deck St Barth — Misha",isNew:true},
+        {id:"p40",text:"Relancer Gilles Aubagnac / Aquarelia"},
       ]},
     ]
   },
   { id:"claude", label:"Claude", dot:"#6B3FA0", bg:"#F0E8FA",
     subsections:[
       { label:null, tasks:[
-        {id:"c1",text:"Prévisionnel trésorerie FLM",priority:true},
         {id:"c4",text:"Plan stratégique 2026-2027 (advisor, board member, apports…)"},
       ]},
     ]
@@ -112,66 +106,21 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"call1",text:"Call Franck Verchelle"},
-        {id:"call7",text:"Call Michael Bentolila"},
-        {id:"call12",text:"Call Kirsten",isNew:true},
-        {id:"call13",text:"Call Pierre F.",isNew:true},
-        {id:"call14",text:"Call Eric D.",isNew:true},
-        {id:"call15",text:"Call Étienne",isNew:true},
-        {id:"call16",text:"Call Fadwa",isNew:true},
-        {id:"call17",text:"Call Stéphane D.",isNew:true},
+        {id:"call12",text:"Call Kirsten"},
+        {id:"call13",text:"Call Pierre F."},
+        {id:"call14",text:"Call Eric D."},
+        {id:"call15",text:"Call Étienne"},
       ]},
     ]
   },
   { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
     subsections:[
-      { label:"RV Qualif — à recaler (4)", tasks:[
-        {id:"co110",text:"Charles Ruelle (16/07)",isNew:true},
-        {id:"co111",text:"Clément Bourayne (15 ou 16/07)",isNew:true},
-        {id:"co112",text:"Laurent Lalouette",isNew:true},
-        {id:"co113",text:"Nicolas Petit",isNew:true},
+      { label:"Propositions à relancer", tasks:[
+        {id:"co117",text:"Misha Sarkissian"},
+        {id:"co75",text:"Pascal Cirasse"},
       ]},
-      { label:"RV (2)", tasks:[
-        {id:"co114",text:"Nicolas Dohm",isNew:true},
-        {id:"co115",text:"Dominique Guignard",isNew:true},
-      ]},
-      { label:"Propositions à envoyer (2)", tasks:[
-        {id:"co106",text:"Florent Pitoun"},
-        {id:"co107",text:"Kate Masson"},
-      ]},
-      { label:"Propositions à relancer (3)", tasks:[
-        {id:"co68b",text:"Alexandre Crisci"},
-        {id:"co116",text:"Julien Parandero",isNew:true},
-        {id:"co117",text:"Misha Sarkissian",isNew:true},
-      ]},
-      { label:"Relance contacts (6)", tasks:[
-        {id:"co71",text:"Jean-Valéry Desens"},
-        {id:"co99",text:"Benjamin Salah"},
-        {id:"co118",text:"Lola Bonnin",isNew:true},
-        {id:"co119",text:"Denis Liotta (Mediaco)",isNew:true},
-        {id:"co120",text:"Pierre Bellagambi (Qista)",isNew:true},
-        {id:"co21",text:"Ventio"},
-      ]},
-      { label:"Recos réseau (2)", tasks:[
-        {id:"co121",text:"Samuel de Saint-Laurent (suite Webinaire)",isNew:true},
-        {id:"co74",text:"Charles Duclert (caler déj)"},
-      ]},
-      { label:"Recos à demander en RV", tasks:[
-        {id:"co122",text:"Fab",isNew:true},
-        {id:"co123",text:"Christophe G.",isNew:true},
-        {id:"co124",text:"Anne-Sophie Rutigliano",isNew:true},
-      ]},
-      { label:"Nouveaux contacts pipe", tasks:[
-        {id:"co125",text:"Objectif : 5 nouveaux contacts",isNew:true},
-      ]},
-      { label:"Actions Dîner / Events", tasks:[
-        {id:"co126",text:"Dîner CEO Club",isNew:true},
-        {id:"co127",text:"Webinaire French Prop Tech",isNew:true},
-        {id:"co82",text:"Vérifier dates dîner sept-déc"},
-      ]},
-      { label:"Cross Partners", tasks:[
-        {id:"co83",text:"Fred R. : suivi Zu + relance Marc Hammani / Chefs"},
-        {id:"co84",text:"Nicolas C. : 1 nouveau RV Fonds"},
-        {id:"co85",text:"Pierre F. : finalisation CV administrateur"},
+      { label:"Offres & Contrats", tasks:[
+        {id:"co52",text:"Finaliser CV administrateur"},
       ]},
     ]
   },
@@ -179,10 +128,9 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"o1",text:"Plan économie"},
-        {id:"o5",text:"Déclaration trimestrielle CA Visconti"},
         {id:"o13",text:"Billets train — semaine du 28/07 (28/07, 29/07)",priority:true},
-        {id:"o14",text:"Attestation achat appart Vacon (changement siège Infra Talents)",isNew:true},
-        {id:"o15",text:"Docs échéancier impôts Seren Concept",isNew:true},
+        {id:"o14",text:"Attestation achat appart Vacon (changement siège Infra Talents)"},
+        {id:"o15",text:"Docs échéancier impôts Seren Concept"},
       ]},
     ]
   },
@@ -192,7 +140,6 @@ const SECTIONS = [
         {id:"r8",text:"Carbon — 2×3 000€ (juil, août)",priority:true,montant:"6 000 €"},
         {id:"r9",text:"Puissance Cap",priority:true,montant:"10 000 €"},
         {id:"r15",text:"Ophtabox (avr→juin + janv)",priority:true,montant:"9 000 €"},
-        {id:"r17",text:"Studiava",montant:"6 500 € HT"},
       ]},
     ]
   },
@@ -206,7 +153,6 @@ const SECTIONS = [
   { id:"admin", label:"Admin & Perso", dot:"#5A5A8A", bg:"#EEEEF8",
     subsections:[
       { label:"Santé", tasks:[
-        {id:"a1",text:"Cardio"},
         {id:"a2",text:"Dermato",priority:true},
         {id:"a3",text:"Consultation sommeil"},
         {id:"a4",text:"Call Lane Petit",priority:true},
@@ -295,7 +241,7 @@ function updateProgress() {
   document.getElementById("prog-pct").textContent=pct+"%";
   document.getElementById("prog-label").textContent=active.length===0?"Activez des tâches pour démarrer":`${done.length} / ${active.length} tâches du jour`;
   const total=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
-  document.getElementById("footer").textContent=`${total} tâches · Semaine 28 — du 07 juillet 2026`;
+  document.getElementById("footer").textContent=`${total} tâches · Semaine 29 — du 14 juillet 2026`;
 }
 function updateSecCount() {
   SECTIONS.forEach(sec=>{
