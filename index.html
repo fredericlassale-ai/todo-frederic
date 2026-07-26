@@ -79,28 +79,19 @@
 <div id="export-msg" style="font-size:10px;color:#5A7A2C;text-align:center;margin-bottom:8px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
 <div class="footer" id="footer"></div>
 <script>
-const STORAGE_KEY = "todo-14072026-v1";
+const STORAGE_KEY = "todo-21072026-v1";
 const SECTIONS = [
   { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
       { label:"Comptes-rendus", tasks:[
         {id:"p39",text:"CR Kate Masson"},
-        {id:"p42",text:"CR Dominique Guignard"},
-        {id:"p43",text:"CR Nicolas Dohm"},
-        {id:"p44",text:"CR Adrien",isNew:true},
-        {id:"p45",text:"CR AB",isNew:true},
-        {id:"p46",text:"CR MBO+",isNew:true},
-        {id:"p47",text:"CR Ophtabox",isNew:true},
-        {id:"p48",text:"CR Gilles",isNew:true},
-        {id:"p49",text:"CR Didier",isNew:true},
       ]},
       { label:"Livrables", tasks:[
         {id:"p14",text:"Synthèse séminaire Novelis"},
         {id:"p25",text:"Comparatif TMA / TTI Success — Alexandre Crisci"},
-        {id:"p40",text:"Relancer Gilles Aubagnac / Aquarelia"},
-        {id:"p50",text:"Programme formation Commerce",isNew:true},
-        {id:"p51",text:"Check docs Pure Partners",isNew:true},
-        {id:"p52",text:"Transmettre deck Misha investisseurs",isNew:true},
+        {id:"p50",text:"Programme formation Commerce"},
+        {id:"p51",text:"Check docs Pure Partners"},
+        {id:"p52",text:"Transmettre deck Misha investisseurs"},
       ]},
     ]
   },
@@ -115,69 +106,25 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"call1",text:"Call Franck Verchelle"},
-        {id:"call12",text:"Call Kirsten"},
-        {id:"call13",text:"Call Pierre F."},
         {id:"call14",text:"Call Eric D."},
         {id:"call15",text:"Call Étienne"},
-        {id:"call18",text:"Call David Thépot",isNew:true},
-        {id:"call19",text:"Call Misha",isNew:true},
+        {id:"call18",text:"Call David Thépot"},
       ]},
     ]
   },
   { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
     subsections:[
-      { label:"RV Qualif — à recaler (4)", tasks:[
-        {id:"co130",text:"Laurent Lalouette",isNew:true},
-        {id:"co131",text:"Montasser",isNew:true},
-        {id:"co132",text:"Stéphane Uzzo",isNew:true},
-        {id:"co133",text:"Michael Dufour",isNew:true},
-      ]},
-      { label:"RV (3)", tasks:[
-        {id:"co134",text:"JB Avierinos",isNew:true},
-        {id:"co135",text:"Charles Ruelle",isNew:true},
-        {id:"co136",text:"Clément Bourayne",isNew:true},
-      ]},
-      { label:"Propositions à envoyer (3)", tasks:[
-        {id:"co137",text:"Nicolas Petit",isNew:true},
-        {id:"co138",text:"Arthur Aubin",isNew:true},
-        {id:"co139",text:"Kate Masson",isNew:true},
-      ]},
-      { label:"Propositions à relancer (3)", tasks:[
+      { label:"Propositions à relancer", tasks:[
         {id:"co68b",text:"Alexandre Crisci"},
-        {id:"co116",text:"Julien Parandero"},
-        {id:"co117",text:"Misha Sarkissian ++"},
+        {id:"co75",text:"Pascal Cirasse"},
       ]},
-      { label:"Relance contacts (6)", tasks:[
-        {id:"co118",text:"Lola Bonnin +"},
-        {id:"co120",text:"Pierre Bellagambi (Qista)"},
-        {id:"co140",text:"Thomas Kieffer",isNew:true},
-        {id:"co141",text:"Thomas Saquet",isNew:true},
-        {id:"co142",text:"Guilhem Ensuque",isNew:true},
-        {id:"co143",text:"Céline Betito",isNew:true},
-      ]},
-      { label:"Recos réseau (3)", tasks:[
-        {id:"co144",text:"Dominique Guignard → envoi docs",isNew:true},
-        {id:"co145",text:"Samuel de Saint-Laurent → suite webinaire",isNew:true},
-        {id:"co74",text:"Charles Duclert (caler déj)"},
-      ]},
-      { label:"Recos à demander en RV", tasks:[
-        {id:"co146",text:"Loïc Grimaud",isNew:true},
-        {id:"co147",text:"Didier Champeix",isNew:true},
-      ]},
-      { label:"Nouveaux contacts pipe", tasks:[
-        {id:"co148",text:"Objectif : 5 nouveaux contacts",isNew:true},
-      ]},
-      { label:"Actions Dîner / Events", tasks:[
-        {id:"co149",text:"Festival Avignon",isNew:true},
-        {id:"co82",text:"Vérifier dates dîner sept-déc"},
-      ]},
-      { label:"Cross Partners", tasks:[
-        {id:"co83",text:"Fred R. : suivi Zu + relance Marc Hammani / Chefs"},
-        {id:"co84",text:"Nicolas C. : 1 nouveau RV Fonds"},
-        {id:"co85",text:"Pierre F. : finalisation CV administrateur"},
-      ]},
-      { label:"Offres & Contrats", tasks:[
-        {id:"co52",text:"Finaliser CV administrateur"},
+    ]
+  },
+  { id:"partenariats", label:"Partenariats Visconti", dot:"#7A4E2D", bg:"#F5EDE8",
+    subsections:[
+      { label:null, tasks:[
+        {id:"pv1",text:"Point Xavier R. (ESL Adit)"},
+        {id:"pv2",text:"Point Antoine (Jausserand)"},
       ]},
     ]
   },
@@ -185,18 +132,14 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"o1",text:"Plan économie"},
-        {id:"o13",text:"Billets train — semaine du 28/07 (28/07, 29/07)",priority:true},
         {id:"o14",text:"Attestation achat appart Vacon (changement siège Infra Talents)"},
-        {id:"o15",text:"Docs échéancier impôts Seren Concept"},
       ]},
     ]
   },
   { id:"recouvrement", label:"Recouvrement", dot:"#8A2C2C", bg:"#F8E8E8",
     subsections:[
       { label:null, tasks:[
-        {id:"r8",text:"Carbon — 2×3 000€ (juil, août)",priority:true,montant:"6 000 €"},
-        {id:"r9",text:"Puissance Cap",priority:true,montant:"10 000 €"},
-        {id:"r15",text:"Ophtabox (avr→juin + janv)",priority:true,montant:"9 000 €"},
+        {id:"r9b",text:"Puissance Cap",priority:true,montant:"10 000 €"},
       ]},
     ]
   },
@@ -204,19 +147,7 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"ct4",text:"RV Fany Rui",priority:true},
-        {id:"ct6",text:"Envoi deck OC → Julien",isNew:true},
-        {id:"ct7",text:"Envoi deck OC → Renaud",isNew:true},
-        {id:"ct8",text:"Envoi deck OC → Pascal",isNew:true},
-        {id:"ct9",text:"Envoi deck OC → Swaton",isNew:true},
-        {id:"ct10",text:"Batch virements",isNew:true},
-      ]},
-    ]
-  },
-  { id:"partenariats", label:"Partenariats Visconti", dot:"#7A4E2D", bg:"#F5EDE8",
-    subsections:[
-      { label:null, tasks:[
-        {id:"pv1",text:"Point Xavier R. (ESL Adit)",isNew:true},
-        {id:"pv2",text:"Point Antoine (Jausserand)",isNew:true},
+        {id:"ct10",text:"Batch virements"},
       ]},
     ]
   },
@@ -228,12 +159,11 @@ const SECTIONS = [
         {id:"a4",text:"Call Lane Petit",priority:true},
       ]},
       { label:"Administratif", tasks:[
-        {id:"a5",text:"Annuler assurance Valmante"},
-        {id:"a11",text:"Règlement Foncia",isNew:true},
         {id:"a6",text:"Annuler assurance Eurosud / Orrians"},
         {id:"a7",text:"Voir règlement procès Vacon"},
         {id:"a8",text:"Déclaration biens immobiliers Vacon"},
         {id:"a9",text:"MAJ situation CNAV"},
+        {id:"a11",text:"Règlement Foncia"},
       ]},
       { label:"Note secrétariat", tasks:[
         {id:"a10",text:"Dr Heuzé Loubet — patient Marseille, suivi validé, peut appeler début janvier (04 86 84 29 02)"},
@@ -312,7 +242,7 @@ function updateProgress() {
   document.getElementById("prog-pct").textContent=pct+"%";
   document.getElementById("prog-label").textContent=active.length===0?"Activez des tâches pour démarrer":`${done.length} / ${active.length} tâches du jour`;
   const total=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
-  document.getElementById("footer").textContent=`${total} tâches · Semaine 29 — du 14 juillet 2026`;
+  document.getElementById("footer").textContent=`${total} tâches · Semaine 30 — du 21 juillet 2026`;
 }
 function updateSecCount() {
   SECTIONS.forEach(sec=>{
