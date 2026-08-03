@@ -79,7 +79,7 @@
 <div id="export-msg" style="font-size:10px;color:#5A7A2C;text-align:center;margin-bottom:8px;display:none;">&#10003; Code copié ! Colle-le dans Claude avec tes nouvelles tâches.</div>
 <div class="footer" id="footer"></div>
 <script>
-const STORAGE_KEY = "todo-21072026-v1";
+const STORAGE_KEY = "todo-28072026-v1";
 const SECTIONS = [
   { id:"production", label:"Production", dot:"#1D6B4E", bg:"#E8F4F0",
     subsections:[
@@ -87,25 +87,14 @@ const SECTIONS = [
         {id:"p39",text:"CR Kate Masson"},
       ]},
       { label:"CR Coaching", tasks:[
-        {id:"p53",text:"CR Gilles Aubagnac",isNew:true},
-        {id:"p54",text:"CR AB Maelys",isNew:true},
-        {id:"p55",text:"CR Stéphane D. (17/07)",isNew:true},
-        {id:"p56",text:"CR Ophtabox (?)",isNew:true},
-        {id:"p57",text:"CR Julien",isNew:true},
-        {id:"p58",text:"CR Stéphane D. (27/07)",isNew:true},
-        {id:"p59",text:"CR MBO+",isNew:true},
-        {id:"p62",text:"CR coaching Christophe",isNew:true},
-      ]},
-      { label:"Prépa Coaching", tasks:[
-        {id:"p60",text:"Prépa coaching Gandalf EBC",isNew:true},
+        {id:"p54",text:"CR AB Maelys"},
+        {id:"p56",text:"CR Ophtabox (?)"},
+        {id:"p59",text:"CR MBO+"},
       ]},
       { label:"Livrables", tasks:[
-        {id:"p14",text:"Synthèse séminaire Novelis"},
         {id:"p25",text:"Comparatif TMA / TTI Success — Alexandre Crisci"},
         {id:"p50",text:"Programme formation Commerce"},
-        {id:"p51",text:"Check docs Pure Partners"},
-        {id:"p52",text:"Transmettre deck Misha investisseurs"},
-        {id:"p61",text:"Finaliser doc Aventura Boats",isNew:true},
+        {id:"p61",text:"Finaliser doc Aventura Boats"},
       ]},
     ]
   },
@@ -119,75 +108,23 @@ const SECTIONS = [
   { id:"calls", label:"Calls", dot:"#0E7C7B", bg:"#E5F5F4",
     subsections:[
       { label:null, tasks:[
-        {id:"call1",text:"Call Franck Verchelle"},
         {id:"call14",text:"Call Eric D."},
         {id:"call15",text:"Call Étienne"},
         {id:"call18",text:"Call David Thépot"},
-        {id:"call20",text:"Call Hubert",isNew:true},
-        {id:"call21",text:"Call Sandro (Eddifis)",isNew:true},
-        {id:"call22",text:"Call Pierre Godefroy",isNew:true},
-        {id:"call23",text:"Call JP Scandella",isNew:true},
-        {id:"call24",text:"Call Brendan Natal",isNew:true},
-        {id:"call25",text:"Call Fab",isNew:true},
+        {id:"call20",text:"Call Hubert"},
+        {id:"call22",text:"Call Pierre Godefroy"},
+        {id:"call24",text:"Call Brendan Natal"},
       ]},
     ]
   },
   { id:"commerce", label:"Commerce & Réseau", dot:"#C4622D", bg:"#FDF0E8",
     subsections:[
-      { label:"RV Qualif — à recaler (4)", tasks:[
-        {id:"co150",text:"Laurent Lalouette",isNew:true},
-        {id:"co151",text:"Alexandre Matheron",isNew:true},
-        {id:"co152",text:"Luc Nadier",isNew:true},
-        {id:"co153",text:"Kate Masson",isNew:true},
+      { label:"Propositions à envoyer", tasks:[
+        {id:"co161",text:"Céline Betito (Chuut)"},
+        {id:"co162",text:"Thomas Kieffer (Edge Yachting)"},
       ]},
-      { label:"RV (3)", tasks:[
-        {id:"co154",text:"Céline Betito",isNew:true},
-        {id:"co155",text:"Thomas Kieffer",isNew:true},
-        {id:"co156",text:"Charles Ruelle",isNew:true},
-      ]},
-      { label:"Propositions à envoyer (7)", tasks:[
-        {id:"co157",text:"Florent Pitoun → envoi modèle contrat",isNew:true},
-        {id:"co158",text:"Charles Ruelle → propal avant RV mercredi",isNew:true,priority:true},
-        {id:"co159",text:"Clément Bourayne (Eddifis)",isNew:true},
-        {id:"co160",text:"JB Avierinos",isNew:true},
-        {id:"co161",text:"Céline Betito (Chuut)",isNew:true},
-        {id:"co162",text:"Thomas Kieffer (Edge Yachting)",isNew:true},
-        {id:"co163",text:"Kate Masson",isNew:true},
-      ]},
-      { label:"Propositions à relancer (3)", tasks:[
-        {id:"co68b",text:"Alexandre Crisci"},
-        {id:"co164",text:"Nicolas Dohm",isNew:true},
-        {id:"co165",text:"Christophe Delorme (envoi doc BPI)",isNew:true},
-      ]},
-      { label:"Relance contacts (6)", tasks:[
-        {id:"co120",text:"Pierre Bellagambi (Qista)"},
-        {id:"co166",text:"Jean-Claude Poslon",isNew:true},
-        {id:"co167",text:"Thierry Selles",isNew:true},
-        {id:"co168",text:"Guilhem Ensuque",isNew:true},
-        {id:"co169",text:"Romain Biseau",isNew:true},
-        {id:"co71",text:"Jean-Valéry Desens"},
-      ]},
-      { label:"Recos réseau (2)", tasks:[
-        {id:"co170",text:"Coppelia Burgos",isNew:true},
-        {id:"co171",text:"Valentin Cordier",isNew:true},
-        {id:"co177",text:"Caler RV visio Valentin Cordier",isNew:true},
-      ]},
-      { label:"Recos à demander en RV (2)", tasks:[
-        {id:"co172",text:"Julien",isNew:true},
-        {id:"co173",text:"Adrien",isNew:true},
-      ]},
-      { label:"Nouveaux contacts pipe", tasks:[
-        {id:"co174",text:"Objectif : 5 nouveaux contacts",isNew:true},
-      ]},
-      { label:"Actions Dîner / Events", tasks:[
-        {id:"co82",text:"Vérifier dates dîner sept-déc"},
-      ]},
-      { label:"Cross Partners", tasks:[
-        {id:"co83",text:"Fred R. : suivi Zu + relance Marc Hammani / Chefs"},
-        {id:"co84",text:"Nicolas C. : 1 nouveau RV Fonds"},
-        {id:"co85",text:"Pierre F. : finalisation CV administrateur"},
-        {id:"co175",text:"Windcliff Partners → proposer webinar levée/structuration",isNew:true},
-        {id:"co176",text:"Anne-Sophie Rutigliano → proposer webinar",isNew:true},
+      { label:"Propositions à relancer", tasks:[
+        {id:"co75",text:"Pascal Cirasse"},
       ]},
     ]
   },
@@ -204,8 +141,8 @@ const SECTIONS = [
       { label:null, tasks:[
         {id:"o1",text:"Plan économie"},
         {id:"o14",text:"Attestation achat appart Vacon (changement siège Infra Talents)"},
-        {id:"o16",text:"Répondre MVIA automatisme CR coaching",isNew:true},
-        {id:"o17",text:"Répondre MVIA automatisme CR 121",isNew:true},
+        {id:"o16",text:"Répondre MVIA automatisme CR coaching"},
+        {id:"o17",text:"Répondre MVIA automatisme CR 121"},
       ]},
     ]
   },
@@ -213,12 +150,11 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"r9b",text:"Puissance Cap",priority:true,montant:"10 000 €"},
-        {id:"r20",text:"Oria (mars)",isNew:true,priority:true},
-        {id:"r21",text:"Champeix (mai)",isNew:true,priority:true},
-        {id:"r22",text:"Conteco (juillet)",isNew:true,priority:true},
-        {id:"r23",text:"Quad (juin)",isNew:true,montant:"3 500 €"},
-        {id:"r24",text:"Ophtabox (avr + janv)",isNew:true,montant:"5 000 €"},
-        {id:"r25",text:"Lycaon (mars)",isNew:true,montant:"2 500 €"},
+        {id:"r21",text:"Champeix (mai)",priority:true},
+        {id:"r22",text:"Conteco (juillet)",priority:true},
+        {id:"r23",text:"Quad (juin)",montant:"3 500 €"},
+        {id:"r24",text:"Ophtabox (avr + janv)",montant:"5 000 €"},
+        {id:"r25",text:"Lycaon (mars)",montant:"2 500 €"},
       ]},
     ]
   },
@@ -226,7 +162,6 @@ const SECTIONS = [
     subsections:[
       { label:null, tasks:[
         {id:"ct4",text:"RV Fany Rui",priority:true},
-        {id:"ct10",text:"Batch virements"},
       ]},
     ]
   },
@@ -321,7 +256,7 @@ function updateProgress() {
   document.getElementById("prog-pct").textContent=pct+"%";
   document.getElementById("prog-label").textContent=active.length===0?"Activez des tâches pour démarrer":`${done.length} / ${active.length} tâches du jour`;
   const total=ALL_TASKS.filter(t=>!state.ts[t.id]?.deleted).length;
-  document.getElementById("footer").textContent=`${total} tâches · Semaine 30 — du 21 juillet 2026`;
+  document.getElementById("footer").textContent=`${total} tâches · Semaine 31 — du 28 juillet 2026`;
 }
 function updateSecCount() {
   SECTIONS.forEach(sec=>{
